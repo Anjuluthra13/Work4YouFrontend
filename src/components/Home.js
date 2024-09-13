@@ -27,7 +27,7 @@ const Home = () => {
 
   const userHome = async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/auth/getdata', {
+      const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
