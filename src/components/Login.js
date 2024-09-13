@@ -67,7 +67,7 @@ const Login = () => {
         notifySuccess();
 
         // Fetch user data after successful login
-        const userDataRes = await fetch('http://localhost:8080/api/auth/getdata', {
+        const userDataRes = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${data.token}` // Send the token for authentication
