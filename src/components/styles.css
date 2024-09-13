@@ -1,0 +1,314 @@
+.toggle {
+  background-color: #ffffff;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+/* Theme-specific styles */
+body.light-theme .navbar-toggler-icon {
+  background-color: #f6efef;
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+body.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Navbar styles */
+.navbar-dark {
+  background-color: #121212 !important;
+}
+
+.navbar-light {
+  background-color: #ffffff !important;
+}
+
+.navbar-dark .nav-link,
+.navbar-dark .dropdown-menu {
+  color: #ffffff !important;
+}
+
+.navbar-light .nav-link,
+.navbar-light .dropdown-menu {
+  color: #000000 !important;
+}
+
+.navbar-toggler {
+  background-color: #ffffff;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  background-color: inherit;
+}
+
+/* Card styles */
+.card-dark {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.card-light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.card-dark .cartItemDetail,
+.card-dark .card-title {
+  color: #ffffff;
+}
+
+.card-light .cartItemDetail,
+.card-light .card-title {
+  color: #000000;
+}
+
+.card-img-small2 {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Theme-specific card styles */
+body.dark-theme .card {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+body.light-theme .card {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Utility classes */
+.hide {
+  display: none;
+}
+
+/* Dark theme navbar container styles */
+.navbar-container.dark {
+  background-color: #333;
+  color: #fff;
+  /* Add more dark theme styles as needed */
+}
+  .navbar-location {
+    display: flex;
+    align-items: center;
+    color: #fff; /* Adjust based on your theme */
+  }
+  
+  .navbar-location svg {
+    margin-right: 0.5rem;
+  }
+  
+  .navbar-location span {
+    font-size: 16px; /* Adjust as needed */
+  }
+  .input-group {
+    position: relative;
+  }
+  
+  .clear-button {
+    position: absolute;
+    right: 10px; /* Adjust based on input padding */
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    padding: 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .clear-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .suggestions-list {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+    z-index: 1000;
+    max-height: 150px;
+    overflow-y: auto;
+    top: 35px; /* Adjust based on input box height */
+  }
+  
+  .suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .suggestions-list li:hover,
+  .suggestions-list li.active {
+    background-color: #f0f0f0;
+  }
+  
+
+  .navbar-toggler-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  .navbar-toggler {
+    order: 1;
+  }
+  
+  .navbar-close {
+    position: absolute;
+    left: 350px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 2.5rem;
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+  
+  .collapse.show .navbar-toggler {
+    display: none;
+  }
+
+  /* Ensure the navbar is a flex container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Ensure the logo is aligned to the right */
+.navbar .navbar-brand {
+  margin-left: auto; /* Pushes the logo to the right */
+}
+
+/* Adjust the navbar items */
+.navbar-nav {
+  flex-grow: 2; /* Allows the navbar items to take up available space */
+  text-align: center; /* Center-aligns items in the navbar */
+}
+
+/* Ensure the navbar toggle button is properly aligned */
+.navbar-toggler {
+  height: 35px; /* Adjust margin if needed */
+  width:50px;
+  margin-right:280px;
+}
+
+/* Ensure the location and search bar are aligned properly */
+.navbar-location {
+  margin-right: 1rem; /* Adjust as necessary */
+}
+
+.search-bar {
+  margin-right: 1rem; /* Adjust as necessary */
+}
+
+/* Style the hamburger button to ensure it's positioned correctly */
+.navbar-toggler {
+  position: absolute;
+  top: 1px; /* Adjust based on your design */
+  right: 1px; /* Adjust based on your design */
+  
+}
+
+/* Adjust the container for responsive behavior */
+.container-fluid {
+  position: relative; /* Ensure child elements are positioned relative to this container */
+}
+
+/* Ensure the navbar items align correctly on different screen sizes */
+@media (max-width: 992px) { /* Adjust the breakpoint based on your design */
+  .navbar-nav {
+    text-align: center;
+  }
+  .navbar-location {
+    display: none; /* Hide location on small screens if needed */
+  }
+}
+
+
+/* Ensure the navbar has a fixed position and spans the full width */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Flexbox layout for the navbar to align items properly */
+.container-fluid {
+  display: flex;
+  justify-content: space-between; /* Adjust alignment as needed */
+  align-items: center;
+}
+
+/* Align logo to the left */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Adjust the logo size if needed */
+.navbar-left img {
+  height: 10px; /* Adjust based on your design */
+}
+
+/* Ensure the navbar-toggler button is positioned correctly */
+.navbar-toggler {
+  position: absolute;
+  top: 15px; /* Adjust based on your design */
+  right: 15px; /* Adjust based on your design */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) { /* Adjust the breakpoint based on your design */
+  .navbar-nav {
+    text-align: center;
+  }
+  .navbar-location {
+    display: none; /* Hide location on small screens if needed */
+  }
+}
+
+.nav2 {
+  padding: 0 1rem;
+}
+
+.navbar-brand img {
+  height: 40px;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.navbar-toggler {
+  margin-left: auto;
+}
+
+.search-bar {
+  margin-right: 1rem;
+}
+
+.navbar-location {
+  margin-right: 1rem;
+}
+
+@media (max-width: 992px) {
+  .search-bar {
+    margin-right: 0;
+  }
+}
