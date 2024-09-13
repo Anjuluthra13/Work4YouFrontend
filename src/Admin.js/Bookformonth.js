@@ -6,7 +6,7 @@ const Bookformonth = () => {
 
     const getdata = async () => {
 
-        const res = await fetch("/get-book", {
+        const res = await fetch("https://work4youbackend-production.up.railway.app/get-book", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

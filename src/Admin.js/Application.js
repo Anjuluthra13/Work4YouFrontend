@@ -10,7 +10,7 @@ const Application = () => {
     const getdata = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch("/api/local", {
+            const res = await fetch("https://work4youbackend-production.up.railway.app/api/local", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

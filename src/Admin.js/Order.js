@@ -7,7 +7,7 @@ const Order = () => {
     const [getuserdata, setUserdata] = useState([]);
 
     const getdata = async () => {
-        const res = await fetch("/api/hire", {  // Update this line to match your endpoint
+        const res = await fetch("https://work4youbackend-production.up.railway.app/api/hire", {  // Update this line to match your endpoint
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

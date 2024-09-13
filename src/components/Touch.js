@@ -9,7 +9,7 @@ const Touch = () => {
     const userContact = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8080/api/auth/getdata', {
+            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Touch = () => {
         const createdAt = new Date().toISOString(); // ISO string format
 
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:8080/api/feedback', {
+        const res = await fetch('https://work4youbackend-production.up.railway.app/api/feedback', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

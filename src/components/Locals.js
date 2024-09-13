@@ -59,7 +59,7 @@ progress: 0,
     const { name,  email, phone, service , area , address } = userData;
 
     const token = localStorage.getItem('token');
-    const res = await fetch('http://localhost:8080/api/local', {
+    const res = await fetch('https://work4youbackend-production.up.railway.app/api/local', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

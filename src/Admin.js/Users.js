@@ -11,7 +11,7 @@ const Users = () => {
 
     // Function to get user data
     const getUserData = async () => {
-        const res = await fetch("/api/auth/users", { // Call the new endpoint for all users
+        const res = await fetch("https://work4youbackend-production.up.railway.app/api/auth/users", { // Call the new endpoint for all users
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Users = () => {
     }, []);
 
     const deleteuser = async (id) => {
-        const res2 = await fetch(`/api/auth/deleteuser/${id}`, { // Ensure the correct endpoint for deletion
+        const res2 = await fetch(`https://work4youbackend-production.up.railway.app/api/auth/deleteuser/${id}`, { // Ensure the correct endpoint for deletion
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

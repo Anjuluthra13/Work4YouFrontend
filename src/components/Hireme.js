@@ -40,7 +40,7 @@ const Hireme = () => {
     const callAboutPage = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:8080/api/auth/getdata', {
+            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -102,7 +102,7 @@ const Hireme = () => {
                 const token = localStorage.getItem('token');
     
                 // Send the hire request to the backend API
-                const response = await fetch('http://localhost:8080/api/hire', {
+                const response = await fetch('https://work4youbackend-production.up.railway.app/api/hire', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

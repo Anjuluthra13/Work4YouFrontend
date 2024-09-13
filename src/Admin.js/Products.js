@@ -10,7 +10,7 @@ const Products = () => {
     const [product, setProduct] = useState([]);
 
     const loadUsers = async () => {
-        const result = await axios.get("http://localhost:4000/product");
+        const result = await axios.get("https://work4youbackend-production.up.railway.app/product");
         setProduct(result.data);
     };
 

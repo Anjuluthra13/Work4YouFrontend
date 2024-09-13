@@ -14,7 +14,7 @@ const About = () => {
         try {
             const token = localStorage.getItem('token'); // Assume token is stored in localStorage
     
-            const res = await fetch('http://localhost:8080/api/auth/getdata', {
+            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

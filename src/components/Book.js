@@ -89,7 +89,7 @@ const Book = () => {
   const callAboutPage = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8080/api/auth/getdata', {
+      const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -183,7 +183,7 @@ const Book = () => {
     } else {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:8080/api/book-now', {
+        const res = await fetch('https://work4youbackend-production.up.railway.app/api/book-now', {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

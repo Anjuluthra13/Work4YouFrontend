@@ -6,7 +6,7 @@ const Complent = () => {
 
     const getdata = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/feedback", {
+            const res = await fetch("https://work4youbackend-production.up.railway.app/api/feedback", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

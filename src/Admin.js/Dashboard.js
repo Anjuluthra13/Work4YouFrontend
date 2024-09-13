@@ -35,10 +35,10 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetchData('http://localhost:8080/api/feedback', setUserfeedback);
-        fetchData('http://localhost:8080/api/auth/users', setUserdata);
+        fetchData('https://work4youbackend-production.up.railway.app/api/feedback', setUserfeedback);
+        fetchData('https://work4youbackend-production.up.railway.app/api/auth/users', setUserdata);
         fetchData('/get-order', setUserorder);
-        fetchData('http://localhost:8080/api/hire', setUserdelivery);
+        fetchData('https://work4youbackend-production.up.railway.app/api/hire', setUserdelivery);
         fetchData('/get-book', setUsermonth);
         fetchData('/get-admin', setAdminData);
     }, []);
