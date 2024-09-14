@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import image1 from "../image/babysitting.jpg";
 import image15 from "../image/homemaid.jpg";
 import image16 from "../image/logo1.jpg";
@@ -23,6 +23,7 @@ const Home = () => {
   const [userName, setUserName] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const history = useHistory();
 
 
   const userHome = async () => {
