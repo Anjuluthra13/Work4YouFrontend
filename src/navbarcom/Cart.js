@@ -151,7 +151,7 @@ const Cart = () => {
             </div>
             <hr />
             <br />
-            <Link to="/checkout">
+            <Link to="/hireme">
             <button
               type="button"
               className="btn btn-dark"
