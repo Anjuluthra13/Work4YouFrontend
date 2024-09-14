@@ -72,7 +72,15 @@ const Home = () => {
   };
 
   useEffect(() => {
-    userHome();
+    const token = localStorage.getItem('token');
+    const name = localStorage.getItem('userName');
+  
+    if (token && name) {
+      setUserName(name);
+      userHome();  // Load additional user data if necessary
+    } else {
+      history.push('/login');  // Redirect to login if not authenticated
+    }
     getdata();
   }, []);
 

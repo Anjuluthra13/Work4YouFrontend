@@ -44,7 +44,7 @@ const Login = () => {
   const loginUser = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/login', {
         method: "POST",
@@ -53,42 +53,38 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password })
       });
-
+  
       if (!res.ok) {
         const errorData = await res.json();
-        if (isMounted) notifyError(errorData.error || "Login failed");
-        return; // Early return if login failed
+        notifyError(errorData.error || "Login failed");
+        return;
       }
-
+  
       const data = await res.json();
       localStorage.setItem("token", data.token); // Store token locally
-
-      if (isMounted) {
-        notifySuccess();
-
-        // Fetch user data after successful login
-        const userDataRes = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${data.token}` // Send the token for authentication
-          }
-        });
-
-        if (userDataRes.ok) {
-          const userData = await userDataRes.json();
-          setUserName(userData.name); // Set the user's name
-          console.log("User data:", userData); // Optional: log user data
-        } else {
-          notifyError("Failed to fetch user data");
+  
+      const userDataRes = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${data.token}` // Send the token for authentication
         }
-
+      });
+  
+      if (userDataRes.ok) {
+        const userData = await userDataRes.json();
+        localStorage.setItem("userName", userData.name); // Store user's name in localStorage
+        setUserName(userData.name);
+        notifySuccess();
+        dispatchs({ type: "USER", payload: true }); // Update global context if needed
         history.push("/"); // Redirect to home or another page
+      } else {
+        notifyError("Failed to fetch user data");
       }
     } catch (error) {
       console.error("Error during login:", error);
-      if (isMounted) notifyError("An unexpected error occurred. Please try again.");
+      notifyError("An unexpected error occurred. Please try again.");
     } finally {
-      if (isMounted) setLoading(false); // Ensure setLoading is called only if component is still mounted
+      setLoading(false);
     }
   };
 

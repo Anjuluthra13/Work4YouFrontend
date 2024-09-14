@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link, useHistory } from 'react-router-dom'; // Import useHistory for navigation
 import 'react-toastify/dist/ReactToastify.css';
 
 const Touch = () => {
     const [userData, setUserData] = useState({ name: "", email: "", phone: "", message: "", createdAt: "" });
+    const [isAuthenticated, setIsAuthenticated] = useState(true); // State to track authentication
+    const history = useHistory(); // Initialize useHistory
 
     const userContact = async () => {
         try {
             const token = localStorage.getItem('token');
+            
+            // Check if token exists
+            if (!token) {
+                setIsAuthenticated(false); // Set authenticated state to false
+                history.push('/login'); // Redirect to login
+                return; // Exit the function
+            }
+
             const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
@@ -16,16 +26,20 @@ const Touch = () => {
                     Authorization: `Bearer ${token}`
                 },
             });
+
             const data = await res.json();
             console.log(data);
-            setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
-
-            if (!res.status === 200) {
+            if (res.status !== 200) {
                 const error = new Error(res.error);
                 throw error;
             }
+
+            setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
+
         } catch (err) {
             console.log(err);
+            setIsAuthenticated(false); // Set authenticated state to false
+            history.push('/login'); // Redirect to login on error
         }
     };
 

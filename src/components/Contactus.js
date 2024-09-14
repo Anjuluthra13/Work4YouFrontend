@@ -1,26 +1,22 @@
-import React, { useState } from "react";
-
-
-import image14 from "../image/4photo.jpg"
-import image15 from "../image/maid15.jpg"
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import Mailer from "./Mailer";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom"; // Import useHistory for navigation
 import emailjs from '@emailjs/browser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const Contactus = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-  const hanldeSumbit = (e) => {
-    sendCos(e);
-    sendEmail(e);
+  const history = useHistory(); // Initialize useHistory
 
-  }
-  const notify = () => toast.success("successfully", {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      history.push('/login'); // Redirect to login if not authenticated
+    }
+  }, [history]); // Add history as a dependency
+
+  const notify = () => toast.success("Successfully sent!", {
     position: "top-center",
     autoClose: 1000,
     hideProgressBar: false,
@@ -28,29 +24,31 @@ const Contactus = () => {
     pauseOnHover: true,
     draggable: true,
     progress: 0,
-});
+  });
 
   const sendCos = async (e) => {
     e.preventDefault();
-  
-    emailjs.sendForm('service_rzwaqzn', 'template_067qagk', e.target, 'user_V5TGFJCZN2Nm8MmZaBWfj')
-   
-    
-    .then(res => {
-        console.log(res);
-      }).catch(err => console.log(err));
 
-      notify();
-      window.location.reload();
-      
-  }
+    emailjs.sendForm('service_rzwaqzn', 'template_067qagk', e.target, 'user_V5TGFJCZN2Nm8MmZaBWfj')
+      .then(res => {
+        console.log(res);
+        notify(); // Call notify on successful submission
+        window.location.reload(); // Reload the page after successful submission
+      }).catch(err => console.log(err));
+  };
+
   const sendEmail = async (e) => {
     e.preventDefault();
     emailjs.sendForm('service_rzwaqzn', 'template_k82n7lc', e.target, 'user_V5TGFJCZN2Nm8MmZaBWfj')
       .then(res => {
         console.log(res);
       }).catch(err => console.log(err));
-  }
+  };
+
+  const handleSubmit = (e) => {
+    sendCos(e);
+    sendEmail(e);
+  };
 
   // connect with firebase
 
@@ -80,7 +78,7 @@ const Contactus = () => {
                 <div className="contact-rightside col-12 col-lg-7">
 
                   <center> <h1 style={{ marginBottom: "3rem", marginTop: "1rem", color: "#121212" }}>Contact With our Team</h1></center>
-                  <form onSubmit={hanldeSumbit} >
+                  <form onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-12 col-lg-6 contact-input-feild" style={{ marginTop: "-3rem", fontWeight: "bold" }}>
                         <p style={{ color: "#121212", fontSize: "17px", marginLeft: "0px", marginTop: "16px", marginBottom: "5px" }}>FullName:</p>

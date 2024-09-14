@@ -165,13 +165,19 @@ const MyNavbar = () => {
     setIsNavbarCollapsed(true);
     setOpenDropdown(null);
   };
+  const handleLogout = () => {
+    localStorage.removeItem("token");  // Clear token
+    localStorage.removeItem("userName"); // Clear user's name
+    dispatch({ type: "USER", payload: false });  // Update global context if needed
+    history.push("/login");  // Redirect to login
+  };
 
   const RenderMenu = () => {
     
       return (
         <NavDropdown title={userName.toUpperCase()} id="basic-nav-dropdown" onClick={handleNavLinkClick}>
           <NavDropdown.Item as={Link} to="/about" onClick={handleNavLinkClick}>Profile</NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/logout" onClick={handleNavLinkClick}>Logout</NavDropdown.Item>
+          <NavDropdown.Item as={Link} to="/logout" onClick={handleLogout}>Logout</NavDropdown.Item>
         </NavDropdown>
       );
     
