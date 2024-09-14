@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'; // Import useHistory
 import { CartState } from '../reducer/Context';
-import qrImage from '../Imagesmall/qrimage.jpg'; // Replace with the path to your QR code image
+import qrImage from '../Imagesmall/qrimage.jpeg'; // Replace with the path to your QR code image
 
 const Checkout = () => {
   const {
