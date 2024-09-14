@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'; // Import useHistory
 import { CartState } from '../reducer/Context';
-import qrImage from '../Imagesmall/qrimage.jpeg'; // Replace with the path to your QR code image
+import qrImage from '../Imagesmall/qrimage.jpg'; // Replace with the path to your QR code image
 
 const Checkout = () => {
   const {
@@ -8,6 +9,7 @@ const Checkout = () => {
     userData,
   } = CartState();
 
+  const history = useHistory(); // Initialize useHistory hook
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardType, setCardType] = useState('');
   const [cardDetails, setCardDetails] = useState({
@@ -18,6 +20,8 @@ const Checkout = () => {
   });
   const [modalMessage, setModalMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCardPaymentSuccess, setIsCardPaymentSuccess] = useState(false); // New state variable
+  const [isLoading, setIsLoading] = useState(false); // Loading spinner state
 
   const total = cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0);
 
@@ -25,6 +29,7 @@ const Checkout = () => {
     setPaymentMethod(method);
     setCardType('');
     setModalMessage('');
+    setIsCardPaymentSuccess(false); // Reset the success flag on payment method change
   };
 
   const handleCardTypeChange = (type) => {
@@ -36,6 +41,7 @@ const Checkout = () => {
       cvv: '',
     });
     setModalMessage('');
+    setIsCardPaymentSuccess(false); // Reset the success flag on card type change
   };
 
   const formatCardNumber = (value) => {
@@ -114,6 +120,7 @@ const Checkout = () => {
       }
 
       setModalMessage('Payment Successful');
+      setIsCardPaymentSuccess(true); // Set success flag for card payment
       setIsModalOpen(true);
     } else if (paymentMethod === 'Cash') {
       setModalMessage('Order Successful');
@@ -130,9 +137,22 @@ const Checkout = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setModalMessage('');
+    
+    // Show alert with custom message for successful card payment
+    if (isCardPaymentSuccess) {
+      alert(`Thank you for choosing Work4You, ${userData.name}. All the details will be sent to you on your email soon.`);
+    }
 
-    // Show alert with the custom message
-    alert(`Thank you for choosing Work4You, ${userData.name}. All the details will be sent to you on your email soon.`);
+    // Display redirect alert
+    alert('We are redirecting you to the home page now.');
+
+    // Display loading spinner and redirect after 5 seconds
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      history.push('/'); // Redirect to the home page
+    }, 5000);
   };
 
   return (
@@ -205,20 +225,32 @@ const Checkout = () => {
             </button>
           </div>
           {paymentMethod === 'UPI' && (
-            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-              <p style={{ marginBottom: '0.5rem', color: '#555' }}>Scan QR Code to Pay:</p>
-              <img src={qrImage} alt="QR Code" style={{ width: '150px', border: '1px solid #ccc', borderRadius: '5px' }} />
+            <div style={{ marginTop: '1rem' }}>
+              <h4 style={{ marginBottom: '0.5rem', color: '#333' }}>UPI Payment</h4>
+              <p>Scan the QR code below to complete your payment:</p>
+              <img
+                src={qrImage}
+                alt="QR Code for UPI Payment"
+                style={{ maxWidth: '200px', height: 'auto', marginBottom: '1rem' }}
+              />
             </div>
           )}
           {paymentMethod === 'Card' && (
-            <div style={{ marginTop: '1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <div>
+              <h4 style={{ marginBottom: '0.5rem', color: '#333' }}>Select Card Type:</h4>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: '1rem',
+                }}
+              >
                 <button
-                  onClick={() => handleCardTypeChange('Credit')}
+                  onClick={() => handleCardTypeChange('Visa')}
                   style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: cardType === 'Credit' ? '#007bff' : '#f7f7f7',
-                    color: cardType === 'Credit' ? 'white' : '#555',
+                    padding: '0.75rem 1.5rem',
+                    backgroundColor: cardType === 'Visa' ? '#007bff' : '#f7f7f7',
+                    color: cardType === 'Visa' ? 'white' : '#555',
                     border: '1px solid #ccc',
                     borderRadius: '5px',
                     flex: 1,
@@ -226,90 +258,94 @@ const Checkout = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  Credit Card
+                  Visa
                 </button>
                 <button
-                  onClick={() => handleCardTypeChange('Debit')}
+                  onClick={() => handleCardTypeChange('MasterCard')}
                   style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: cardType === 'Debit' ? '#007bff' : '#f7f7f7',
-                    color: cardType === 'Debit' ? 'white' : '#555',
+                    padding: '0.75rem 1.5rem',
+                    backgroundColor: cardType === 'MasterCard' ? '#007bff' : '#f7f7f7',
+                    color: cardType === 'MasterCard' ? 'white' : '#555',
                     border: '1px solid #ccc',
                     borderRadius: '5px',
                     flex: 1,
                     cursor: 'pointer',
                   }}
                 >
-                  Debit Card
+                  MasterCard
                 </button>
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Card Number:</label>
+                <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
+                  Card Number:
+                </label>
                 <input
                   type="text"
                   name="cardNumber"
                   value={cardDetails.cardNumber}
                   onChange={handleCardDetailChange}
+                  placeholder="1234 5678 9012 3456"
                   style={{
-                    padding: '0.75rem',
                     width: '100%',
+                    padding: '0.75rem',
                     borderRadius: '5px',
                     border: '1px solid #ccc',
-                    boxSizing: 'border-box',
                   }}
-                  maxLength="19"
                 />
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Card Holder Name:</label>
+                <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
+                  Card Holder Name:
+                </label>
                 <input
                   type="text"
                   name="cardHolder"
-                  value={cardDetails.cardHolder || userData.name} // Use userData name if cardHolder is empty
+                  value={cardDetails.cardHolder}
                   onChange={handleCardDetailChange}
+                  placeholder="John Doe"
                   style={{
-                    padding: '0.75rem',
                     width: '100%',
+                    padding: '0.75rem',
                     borderRadius: '5px',
                     border: '1px solid #ccc',
-                    boxSizing: 'border-box',
                   }}
                 />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <div style={{ flex: 1, marginRight: '0.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Expiry Date (MM/YY):</label>
+                  <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
+                    Expiry Date (MM/YY):
+                  </label>
                   <input
                     type="text"
                     name="expiryDate"
                     value={cardDetails.expiryDate}
                     onChange={handleCardDetailChange}
+                    placeholder="MM/YY"
                     style={{
-                      padding: '0.75rem',
                       width: '100%',
+                      padding: '0.75rem',
                       borderRadius: '5px',
                       border: '1px solid #ccc',
-                      boxSizing: 'border-box',
                     }}
-                    maxLength="5"
-                    placeholder="MM/YY"
                   />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>CVV:</label>
+                  <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
+                    CVV:
+                  </label>
                   <input
                     type="text"
                     name="cvv"
                     value={cardDetails.cvv}
                     onChange={handleCardDetailChange}
+                    placeholder="123"
                     style={{
-                      padding: '0.75rem',
                       width: '100%',
+                      padding: '0.75rem',
                       borderRadius: '5px',
                       border: '1px solid #ccc',
-                      boxSizing: 'border-box',
                     }}
-                    maxLength="3"
                   />
                 </div>
               </div>
@@ -319,55 +355,54 @@ const Checkout = () => {
         <button
           onClick={handleSubmit}
           style={{
-            padding: '1rem 2rem',
-            backgroundColor: '#28a745',
+            width: '100%',
+            padding: '0.75rem',
+            backgroundColor: '#007bff',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
-            width: '100%',
           }}
         >
-          Pay Now
+          Confirm Payment
         </button>
       </div>
 
+      {/* Modal */}
       {isModalOpen && (
         <div
           style={{
             position: 'fixed',
             top: 0,
             left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000,
           }}
         >
           <div
             style={{
               backgroundColor: 'white',
               padding: '2rem',
-              borderRadius: '5px',
-              boxShadow: '0px 0px 10px rgba(0,0,0,0.25)',
+              borderRadius: '10px',
+              width: '80%',
+              maxWidth: '500px',
               textAlign: 'center',
-              maxWidth: '400px',
-              width: '100%',
             }}
           >
-            <p style={{ marginBottom: '0.5rem', color: '#333' }}>{modalMessage}</p>
+            <h2 style={{ marginBottom: '1rem' }}>{modalMessage}</h2>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <button
                 onClick={closeModal}
                 style={{
-                  padding: '0.5rem 1rem', // Added 1rem padding for horizontal space
+                  padding: '0.75rem 1.5rem',
                   backgroundColor: '#007bff',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '3px',
+                  borderRadius: '5px',
                   cursor: 'pointer',
                 }}
               >
@@ -375,6 +410,35 @@ const Checkout = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Loading Spinner */}
+      {isLoading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            className="spinner"
+            style={{
+              width: '50px',
+              height: '50px',
+              border: '5px solid #ccc',
+              borderTop: '5px solid #007bff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
         </div>
       )}
     </div>
