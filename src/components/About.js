@@ -14,10 +14,9 @@ const About = () => {
         try {
             const token = localStorage.getItem('token'); // Assume token is stored in localStorage
     
-            const res = await fetch('api/auth/getdata', {
+            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
-                    Accept: "application/json",
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}` // Include JWT token
                 },
@@ -34,7 +33,7 @@ const About = () => {
     
         } catch (err) {
             console.log(err);
-            history.push('/login');
+            
         }
     }
 
