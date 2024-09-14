@@ -419,7 +419,7 @@ const Book = () => {
                       </label>
                     </div>
 
-                    <Button style={{ marginTop: "2rem", marginBottom: "3rem" }} type="submit" className="btn btn-dark">
+                    <Button style={{ marginTop: "2rem", marginBottom: "3rem", width:"100%" }} type="submit" className="btn btn-dark">
                       Submit
                     </Button>
                   </form>
