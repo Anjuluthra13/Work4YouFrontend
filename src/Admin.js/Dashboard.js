@@ -14,11 +14,13 @@ const Dashboard = () => {
 
     const fetchData = async (url, setState) => {
         try {
+            const token = localStorage.getItem('token');
             const res = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 credentials: 'include'
             });
