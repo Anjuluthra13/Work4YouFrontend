@@ -75,67 +75,70 @@ const Hireme = () => {
     };
 
     const submitData = async (event) => {
-        event.preventDefault();
-    
-        // Destructure user data
-        const { name, phone, email, altEmail, amount, city, state, stime, etime, date, address, service } = userData;
-    
-        // Convert start and end times into ISO format using the provided date and time
-        const startDateTime = convertDateTime(date, stime);
-        const endDateTime = convertDateTime(date, etime);
-        const currentDateTime = new Date();
-    
-        // Validate the form input
-        if (!name || !email || !phone || !amount || !city || !state || !stime || !etime || !date || !address || !service) {
-            toast.error("Please fill in all required fields", { autoClose: 1000 });
-        } else if (startDateTime < currentDateTime || endDateTime < currentDateTime) {
-            toast.error("Date and time should not be before the current date and time", { autoClose: 1000 });
-        } else {
-            // Show success toast for submission
-            toast.success("Your booking has been submitted successfully", { autoClose: 1000 });
-    
-            // Send email notification (if needed)
-            await sendEmail(event);
-    
-            try {
-                // Retrieve token from localStorage
-                const token = localStorage.getItem('token');
-    
-                // Send the hire request to the backend API
-                const response = await fetch('https://work4youbackend-production.up.railway.app/api/hire', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        ...userData, // Spread user data
-                        startDateTime: startDateTime.toISOString(), // Send in ISO format
-                        endDateTime: endDateTime.toISOString() // Send in ISO format
-                    })
-                });
-    
-                // Parse the response JSON
-                const result = await response.json();
-    
-                // Check if the response is successful
-                if (response.ok) {
-                    // Log the hire request ID returned from MongoDB (_id)
-                    console.log('Hire Request ID:', result._id);
-    
-                    // Show success toast with the hire request ID
-                    toast.success(`Hire Request submitted.`);
-                } else {
-                    // Show error toast with a custom error message
-                    toast.error(`Error: ${result.message || 'Failed to submit hire request'}`, { autoClose: 2000 });
-                }
-            } catch (error) {
-                // Handle any errors that occurred during fetch
-                console.error("Error submitting hire request:", error);
-                toast.error("Failed to submit hire request. Please try again later.", { autoClose: 2000 });
+    event.preventDefault();
+
+    // Destructure user data
+    const { name, phone, email, altEmail, amount, city, state, stime, etime, date, address, service } = userData;
+
+    // Convert start and end times into ISO format using the provided date and time
+    const startDateTime = convertDateTime(date, stime);
+    const endDateTime = convertDateTime(date, etime);
+    const currentDateTime = new Date();
+
+    // Validate the form input
+    if (!name || !email || !phone || !amount || !city || !state || !stime || !etime || !date || !address || !service) {
+        toast.error("Please fill in all required fields", { autoClose: 1000 });
+    } else if (startDateTime < currentDateTime || endDateTime < currentDateTime) {
+        toast.error("Date and time should not be before the current date and time", { autoClose: 1000 });
+    } else {
+        // Show success toast for submission
+        toast.success("Your booking has been submitted successfully", { autoClose: 1000 });
+
+        // Send email notification (if needed)
+        await sendEmail(event);
+
+        try {
+            // Retrieve token from localStorage
+            const token = localStorage.getItem('token');
+
+            // Send the hire request to the backend API
+            const response = await fetch('https://work4youbackend-production.up.railway.app/api/hire', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    ...userData, // Spread user data
+                    startDateTime: startDateTime.toISOString(), // Send in ISO format
+                    endDateTime: endDateTime.toISOString() // Send in ISO format
+                })
+            });
+
+            // Parse the response JSON
+            const result = await response.json();
+
+            // Check if the response is successful
+            if (response.ok) {
+                // Log the hire request ID returned from MongoDB (_id)
+                console.log('Hire Request ID:', result._id);
+
+                // Show success toast with the hire request ID
+                toast.success(`Hire Request submitted.`);
+
+                // Redirect to the checkout page after successful submission
+                history.push('/checkout');
+            } else {
+                // Show error toast with a custom error message
+                toast.error(`Error: ${result.message || 'Failed to submit hire request'}`, { autoClose: 2000 });
             }
+        } catch (error) {
+            // Handle any errors that occurred during fetch
+            console.error("Error submitting hire request:", error);
+            toast.error("Failed to submit hire request. Please try again later.", { autoClose: 2000 });
         }
-    };
+    }
+};
     
     // Function to send an email notification via EmailJS
     const sendEmail = async (e) => {
