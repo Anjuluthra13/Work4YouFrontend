@@ -45,6 +45,7 @@ const Home = () => {
     } catch (err) {
       setErrorMessage('An error occurred while fetching data.');
       console.error(err);
+      history.push('/login');
     }
   };
 
