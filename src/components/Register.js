@@ -151,7 +151,7 @@ const Register = () => {
                                     <input className="input-field" type="text" placeholder="Address" name="address" id='address' autoComplete='off' value={inpval.address} onChange={setdata} />
                                 </div>
 
-                                <button type="submit" className="btn btn-dark" id="signup" style={{ marginTop: "2rem" }} onClick={addinpdata}>Register</button>
+                                <Link type="submit" className="btn btn-dark" id="signup" value="register" style={{ marginTop: "2rem" }} onClick={addinpdata}>Register</Link>
                             </form>
                         </div>
 

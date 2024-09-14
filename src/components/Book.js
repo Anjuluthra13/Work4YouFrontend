@@ -418,23 +418,9 @@ const Book = () => {
                       </label>
                     </div>
 
-                    <button
-                      type="submit"
-                      style={{
-                        marginTop: "2rem",
-                        marginBottom: "3rem",
-                        backgroundColor: "grey",
-                        color: "#fff",
-                        border: "none",
-                        padding: "0.5rem 0.5rem",
-                        borderRadius: "5px",
-                        fontSize: "16px",
-                        fontWeight: "bold"
-                      }}
-                      className="btn btn-dark"
-                    >
+                    <Button style={{ marginTop: "2rem", marginBottom: "3rem" }} type="submit" className="btn btn-dark">
                       Submit
-                    </button>
+                    </Button>
                   </form>
                 </div>
               </div>

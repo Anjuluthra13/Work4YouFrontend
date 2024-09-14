@@ -74,14 +74,14 @@ const MyNavbar = () => {
   };
 
   const searchQueryToRouteMap = {
-    'driver.': '/driver',
-    'babysitter.': '/babycare',
-    'cooking.': '/cooking',
-    'homeservice.': '/homemaid',
-    'pest.': '/pest',
-    'cleaning.': '/clean',
-    'painter.': '/paint',
-    'carpenter.': '/carpenter'
+    'driver': '/driver',
+    'babysitter': '/babycare',
+    'cooking': '/cooking',
+    'homeservice': '/homemaid',
+    'pest': '/pest',
+    'cleaning': '/clean',
+    'painter': '/paint',
+    'carpenter': '/carpenter'
   };
 
   const services = Object.keys(searchQueryToRouteMap);

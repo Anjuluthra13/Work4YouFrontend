@@ -129,9 +129,8 @@ const Login = () => {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-dark" style={{ marginTop: "2rem" }} disabled={loading}>
-                  {loading ? "Logging in..." : "Login"}
-                </button>
+                <Link type="submit" className="btn btn-dark" id="signin" value="login" onClick={loginUser} style={{ marginTop: "2rem" }}disabled={loading}>
+                {loading ? "Logging in..." : "Login"}</Link>
               </form>
             </div>
             <div className="col-md-6 col-lg-6" style={{ padding: "4rem" }}>
