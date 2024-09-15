@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import image14 from "../image/4photo.jpg"
-import image15 from "../image/maid12.jpg"
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import image14 from "../image/4photo.jpg"; // Ensure these paths are correct
+import image15 from "../image/maid12.jpg";
+
 const Aboutus = () => {
+  const history = useHistory(); // Initialize history
+
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
 
+    // Check if the user is logged in
+    const token = localStorage.getItem('token'); // Check the token in localStorage
+    if (!token) { // Redirect to login page if not logged in
+      history.push('/login');
+    }
+  }, [history]);
 
-
-
+  
   return (
     <>
       <div className='container ' style={{ width: "72%", marginTop: "-2rem" }}>
