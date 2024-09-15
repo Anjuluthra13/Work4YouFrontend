@@ -37,6 +37,7 @@ import Register from "./components/Register";
 
 import Login from "./components/Login";
 import About from "./components/About";
+import Edit from "./components/Edit";
 import Touch from "./components/Touch";
 import Logout from "./components/Logout";
 import { createContext, useReducer } from "react";
@@ -54,6 +55,7 @@ import Delivary from "./Admin.js/Delivary";
 import Bookformonth from "./Admin.js/Bookformonth";
 import AddProduct from "./Admin.js/AddProduct";
 import Editproduct from "./Admin.js/Editproduct";
+
 
 import Loginadmin from "./AdminLogin/Loginadmin";
 import Registeradmin from "./AdminLogin/Registeradmin";
@@ -279,6 +281,10 @@ function App({ location }) {
             <Route exact path="/about">
               <About></About>
             </Route>
+            <Route exact path="/edit">
+              <Edit></Edit>
+              </Route>
+            
             <Route exact path="/logout">
               <Logout></Logout>
             </Route>
