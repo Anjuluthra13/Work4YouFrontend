@@ -19,7 +19,7 @@ const Card = ({ team }) => {
           {Array.from({ length: 5 }, (_, index) => (
             <i
               key={index}
-              className={`fas ${index < team.rating ? 'fa-star' : 'fa-star-half-alt'}`}
+              className={fas fa-star${index < team.rating ? '' : '-half-alt'}}
               style={{ color: index < team.rating ? '#e3c414' : '' }}
             />
           ))}
@@ -27,7 +27,7 @@ const Card = ({ team }) => {
         </div>
         <div className="tags">
           {team.tags.map((tag, index) => (
-            <span key={index} className={tag.color ? `tag ${tag.color}` : 'tag'}>{tag.text}</span>
+            <span key={index} className={tag${tag.color ? ' ' + tag.color : ''}}>{tag.text}</span>
           ))}
         </div>
         <p className="desc">{team.desc}</p>
@@ -56,7 +56,7 @@ const Team = () => {
       poster: Sudhir, 
       title: 'Sudhir',
       position: 'Leader',
-      rating: 5,
+      rating: 4.8,
       tags: [
         { text: 'Frontend' },
         { text: 'Backend' }
@@ -86,7 +86,7 @@ const Team = () => {
     },
     {
       poster: Kamal, 
-      title: 'Kamal Sharma',
+      title: 'Kamal',
       position: 'Member',
       rating: 4,
       tags: [
@@ -109,13 +109,14 @@ const Team = () => {
         { text: 'Frontend' },
         { text: 'Backend' }
       ],
-      desc: 'A passionate team member with a strong understanding of teamwork and excited about learning new things.',
+      desc: 'A passionate team member with a strong understanding of team work and excited about learning new things.',
       socialLinks: [
         { url: 'https://www.linkedin.com/in/sandhya-prajapati-530664237', icon: 'fa-linkedin' },
         { url: 'https://github.com/prajapatisan', icon: 'fa-github' },
         { url: 'https://prajapatisan.github.io/creative-cv/', icon: 'fa-link' } 
       ]
-    }
+    },
+   
   ];
 
   return (
