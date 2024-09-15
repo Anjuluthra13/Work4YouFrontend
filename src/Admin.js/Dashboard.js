@@ -41,7 +41,7 @@ const Dashboard = () => {
         fetchData('https://work4youbackend-production.up.railway.app/api/auth/users', setUserdata);
         fetchData('/get-order', setUserorder);
         fetchData('https://work4youbackend-production.up.railway.app/api/hire', setUserdelivery);
-        fetchData('/get-book', setUsermonth);
+        fetchData('https://work4youbackend-production.up.railway.app/api/book-now', setUsermonth);
         fetchData('/get-admin', setAdminData);
     }, []);
 
