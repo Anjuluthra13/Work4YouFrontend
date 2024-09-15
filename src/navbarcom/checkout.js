@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'; // Import useHistory
+import React, { useEffect, useState } from 'react';
 import { CartState } from '../reducer/Context';
+import { useHistory } from 'react-router-dom';
 import qrImage from '../Imagesmall/qrimage.jpeg'; // Replace with the path to your QR code image
 
 const Checkout = () => {
+  const history = useHistory();
   const {
     state: { cart },
     userData,
   } = CartState();
 
-  const history = useHistory(); // Initialize useHistory hook
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardType, setCardType] = useState('');
   const [cardDetails, setCardDetails] = useState({
@@ -20,8 +20,13 @@ const Checkout = () => {
   });
   const [modalMessage, setModalMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCardPaymentSuccess, setIsCardPaymentSuccess] = useState(false); // New state variable
-  const [isLoading, setIsLoading] = useState(false); // Loading spinner state
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      history.push('/'); // Redirect to home if not logged in
+    }
+  }, [history]);
 
   const total = cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0);
 
@@ -29,7 +34,6 @@ const Checkout = () => {
     setPaymentMethod(method);
     setCardType('');
     setModalMessage('');
-    setIsCardPaymentSuccess(false); // Reset the success flag on payment method change
   };
 
   const handleCardTypeChange = (type) => {
@@ -41,7 +45,6 @@ const Checkout = () => {
       cvv: '',
     });
     setModalMessage('');
-    setIsCardPaymentSuccess(false); // Reset the success flag on card type change
   };
 
   const formatCardNumber = (value) => {
@@ -120,7 +123,6 @@ const Checkout = () => {
       }
 
       setModalMessage('Payment Successful');
-      setIsCardPaymentSuccess(true); // Set success flag for card payment
       setIsModalOpen(true);
     } else if (paymentMethod === 'Cash') {
       setModalMessage('Order Successful');
@@ -137,22 +139,9 @@ const Checkout = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setModalMessage('');
-    
-    // Show alert with custom message for successful card payment
-    if (isCardPaymentSuccess) {
-      alert(`Thank you for choosing Work4You, ${userData.name}. All the details will be sent to you on your email soon.`);
-    }
 
-    // Display redirect alert
-    alert('We are redirecting you to the home page now.');
-
-    // Display loading spinner and redirect after 5 seconds
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      history.push('/'); // Redirect to the home page
-    }, 5000);
+    // Show alert with the custom message
+    alert(`Thank you for choosing Work4You, ${userData.name}. All the details will be sent to you on your email soon.`);
   };
 
   return (
