@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { CartState } from "../reducer/Context";
 import image from "../Imagesmall/maidimage.jpg";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Cart = () => {
   const {
@@ -11,12 +11,19 @@ const Cart = () => {
   } = CartState();
 
   const [total, setTotal] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Redirect to the home page if not logged in
+      history.push('/');
+    }
+    
     setTotal(
       cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0)
     );
-  }, [cart]);
+  }, [cart, history]);
 
   const handleIncrement = (prod) => {
     dispatch({
@@ -44,6 +51,7 @@ const Cart = () => {
       });
     }
   };
+
 
   return (
     <div className="container">
