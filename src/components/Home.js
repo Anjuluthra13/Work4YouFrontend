@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';  // Import useHistory for navigation
 import image1 from "../image/babysitting.jpg";
 import image15 from "../image/homemaid.jpg";
 import image16 from "../image/logo1.jpg";
@@ -27,10 +27,11 @@ const Home = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const defaultAvatar = imageavtar;
   const scrollContainerRef = useRef(null);
+  const history = useHistory();  // Initialize history for navigation
 
   const userHome = async () => {
     try {
-      const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+      const res = await fetch('http://localhost:8080/api/auth/getdata', {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const Home = () => {
 
   const getdata = async () => {
     try {
-      const res = await fetch("https://work4youbackend-production.up.railway.app/api/feedback", {
+      const res = await fetch("http://localhost:8080/api/feedback", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -72,8 +73,20 @@ const Home = () => {
     }
   };
 
+  // Session handling and user data fetching
   useEffect(() => {
-    userHome();
+    const token = localStorage.getItem('token');
+    const name = localStorage.getItem('userName');
+
+    if (token && name) {
+      setUserName(name);  // Set userName from localStorage
+      userHome();  // Load additional user data if necessary
+    } else {
+      history.push('/login');  // Redirect to login if not authenticated
+    }
+  }, [history]);  // Add history as a dependency
+
+  useEffect(() => {
     getdata();
   }, []);
 
@@ -82,7 +95,7 @@ const Home = () => {
       if (scrollContainerRef.current) {
         scrollContainerRef.current.scrollBy({
           top: 0,
-          left: 200, // Scroll right to left
+          left: -200, // Scroll right to left
           behavior: 'smooth',
         });
       }
