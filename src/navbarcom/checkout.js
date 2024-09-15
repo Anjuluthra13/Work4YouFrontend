@@ -20,6 +20,7 @@ const Checkout = () => {
   });
   const [modalMessage, setModalMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
