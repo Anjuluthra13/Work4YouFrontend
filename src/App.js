@@ -34,6 +34,7 @@ import Bote from "./components/Bote";
 import Book from "./components/Book"
 import Locals from "./components/Locals";
 import Register from "./components/Register";
+import Team from "./components/Team"
 
 import Login from "./components/Login";
 import About from "./components/About";
@@ -277,6 +278,9 @@ function App({ location }) {
 
             <Route exact path="/touch">
               <Touch></Touch>
+            </Route>
+            <Route exact path="/OurTeam">
+              <Team></Team>
             </Route>
             <Route exact path="/about">
               <About></About>

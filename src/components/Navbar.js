@@ -240,7 +240,7 @@ const MyNavbar = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link as={Link} to="/" onClick={handleNavLinkClick}>HOME</Nav.Link>
-          <Nav.Link as={Link} to="/aboutus" onClick={handleNavLinkClick}>ABOUT US</Nav.Link>
+          <Nav.Link as={Link} to="/OurTeam" onClick={handleNavLinkClick}>OUR TEAM</Nav.Link>
           <Nav.Link as={Link} to="/locals" onClick={handleNavLinkClick}>APPLY FOR JOB</Nav.Link>
 
           <NavDropdown 
