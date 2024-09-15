@@ -33,9 +33,19 @@ const Hireme = () => {
     } = CartState();
 
     useEffect(() => {
+        // Check if the user is logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // Redirect to home page if not logged in
+            history.push('/');
+        } else {
+            callAboutPage();
+        }
+
+        // Calculate total and services based on cart
         setTotal(cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0));
         setService(cart.reduce((acc, curr) => `${acc}${curr.service}:${curr.category},`, ""));
-    }, [cart]);
+    }, [cart, history]);
 
     const callAboutPage = async () => {
         try {
