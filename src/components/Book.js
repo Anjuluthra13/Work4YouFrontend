@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import axios from 'axios';
 import PackagePopup from './PackagePopup';
-
+import Button from './Button';
 // Define package details
 const packageDetails = [
   {
