@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';  // Import useHistory
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactStars from "react-rating-stars-component";
@@ -7,11 +7,19 @@ import ReactStars from "react-rating-stars-component";
 const Touch = () => {
     const [userData, setUserData] = useState({ name: "", email: "", phone: "", message: "", createdAt: "" });
     const [rating, setRating] = useState(0); // State for star rating
+    const history = useHistory();  // Initialize useHistory
 
     const userContact = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+
+            // Check if token is not present
+            if (!token) {
+                history.push('/login');  // Redirect to login if no token
+                return;
+            }
+
+            const res = await fetch('http://localhost:8080/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,7 +81,7 @@ const Touch = () => {
         const createdAt = new Date().toISOString(); // ISO string format
 
         const token = localStorage.getItem('token');
-        const res = await fetch('https://work4youbackend-production.up.railway.app/api/feedback', {
+        const res = await fetch('http://localhost:8080/api/feedback', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
