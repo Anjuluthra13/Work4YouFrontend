@@ -1,68 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import axios from 'axios';
-
+import PackagePopup from './PackagePopup';
 
 // Define package details
 const packageDetails = [
   {
     name: 'Basic Package',
-    price: 35000,
-    advantages: [
-      'Basic service',
-      'Standard support',
-      'No extra features'
-    ]
+    price: 15000,
+    advantages: ['Basic service', 'Standard support', 'No extra features']
   },
   {
     name: 'Gold Package',
-    price: 45000,
-    advantages: [
-      'Gold service',
-      'Priority support',
-      'Includes additional features'
-    ]
+    price: 25000,
+    advantages: ['Gold service', 'Priority support', 'Includes additional features']
   },
   {
     name: 'Platinum Package',
-    price: 60000,
-    advantages: [
-      'Platinum service',
-      '24/7 support',
-      'All inclusive features'
-    ]
+    price: 40000,
+    advantages: ['Platinum service', '24/7 support', 'All inclusive features']
   }
 ];
-
-const PackagePopup = ({ packages, onSelect, onClose }) => {
-  return (
-    <div className="popup-overlay">
-      <div className="popup-content">
-        <h4>Select a Package</h4>
-        <div className="package-container">
-          {packages.map((pkg, index) => (
-            <div className="package-item" key={index} onClick={() => onSelect(pkg)}>
-              <h5>{pkg.name}</h5>
-              <p><strong>Price:</strong> ₹{pkg.price.toLocaleString()}</p>
-              <p><strong>Advantages:</strong></p>
-              <ul>
-                {pkg.advantages.map((adv, i) => (
-                  <li key={i}>{adv}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="popup-button-container">
-          <button onClick={onClose}>Close</button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Book = () => {
   useEffect(() => {
@@ -76,7 +37,6 @@ const Book = () => {
     phone: "",
     service: "",
     area: "",
-    //carrier: "",
     address: "",
     startDate: "",
     endDate: "",
@@ -115,9 +75,6 @@ const Book = () => {
     callAboutPage();
   }, []);
 
-
-
-
   const notifyError = () => toast.error("Please fill all required fields", {
     position: "top-center",
     autoClose: 2000,
@@ -137,11 +94,6 @@ const Book = () => {
     draggable: true,
     progress: 0,
   });
-
-  const postUserData = (event) => {
-    const { name, value } = event.target;
-    setUserData(prevState => ({ ...prevState, [name]: value }));
-  };
 
   const formatDateToInput = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
@@ -220,14 +172,25 @@ const Book = () => {
     }
   };
 
-  const handlePackageSelect = (pkg) => {
-    setUserData(prevState => ({ ...prevState, package: pkg.name }));
+  const postUserData = (event) => {
+    const { name, value } = event.target;
+    setUserData(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handlePackageChange = (event) => {
+    const selectedPackageName = event.target.value;
+    const pkg = packageDetails.find(pkg => pkg.name === selectedPackageName);
+
+    setUserData(prevState => ({
+      ...prevState,
+      package: pkg ? pkg.name : ""
+    }));
     setSelectedPackage(pkg);
-    setShowPopup(false);
+    setShowPopup(true);  // Show the popup when a package is selected
   };
 
   const today = new Date().toISOString().split('T')[0];
-
+  
   return (
     <>
       <div className="container" style={{ marginTop: "-2rem" }}>
@@ -375,18 +338,21 @@ const Book = () => {
                           required
                         />
                       </div>
-                      <div className="col-12 col-lg-4 contact-input-feild" style={{ marginTop: "-2.5rem", fontWeight: "bold" }}>
-                        <p style={{ fontSize: "20px", marginBottom: "0px", fontFamily: "poppins" }}>Package</p>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Select a package"
-                          value={userData.package}
-                          onClick={() => setShowPopup(true)}
-                          onChange={postUserData}
-                          required
-                        />
-                      </div>
+                     <div className="col-12 col-lg-4 contact-input-feild" style={{ marginTop: "-2.5rem", fontWeight: "bold" }}>
+                      <p style={{ fontSize: "20px", marginBottom: "0px", fontFamily: "poppins" }}>Package</p>
+                      <select
+                      className="form-control"
+                      name="package"
+                      value={userData.package}
+                       onChange={handlePackageChange}
+                      required
+                        >
+      <option value="">Select</option>
+          {packageDetails.map(pkg => (
+            <option key={pkg.name} value={pkg.name}>{pkg.name}</option>
+          ))}
+        </select>
+  </div>
                     </div>
 
                     <div className="row">
@@ -430,12 +396,10 @@ const Book = () => {
         </div>
       </section>
 
-      {/* Render Popup */}
-      {showPopup && (
-        <PackagePopup
-          packages={packageDetails}
-          onSelect={handlePackageSelect}
-          onClose={() => setShowPopup(false)}
+     {showPopup && selectedPackage && (
+        <PackagePopup 
+          packageDetails={selectedPackage} 
+          onClose={() => setShowPopup(false)} 
         />
       )}
     </>
