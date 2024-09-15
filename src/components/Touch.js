@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link, useHistory } from 'react-router-dom'; // Import useHistory for navigation
 import 'react-toastify/dist/ReactToastify.css';
+import ReactStars from "react-rating-stars-component";
 
 const Touch = () => {
     const [userData, setUserData] = useState({ name: "", email: "", phone: "", message: "", createdAt: "" });
-    const [isAuthenticated, setIsAuthenticated] = useState(true); // State to track authentication
-    const history = useHistory(); // Initialize useHistory
+    const [rating, setRating] = useState(0); // State for star rating
 
     const userContact = async () => {
         try {
             const token = localStorage.getItem('token');
-            
-            // Check if token exists
-            if (!token) {
-                setIsAuthenticated(false); // Set authenticated state to false
-                history.push('/login'); // Redirect to login
-                return; // Exit the function
-            }
-
             const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
                 method: "GET",
                 headers: {
@@ -26,20 +18,15 @@ const Touch = () => {
                     Authorization: `Bearer ${token}`
                 },
             });
-
             const data = await res.json();
-            console.log(data);
-            if (res.status !== 200) {
+            setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
+
+            if (!res.status === 200) {
                 const error = new Error(res.error);
                 throw error;
             }
-
-            setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
-
         } catch (err) {
             console.log(err);
-            setIsAuthenticated(false); // Set authenticated state to false
-            history.push('/login'); // Redirect to login on error
         }
     };
 
@@ -74,12 +61,15 @@ const Touch = () => {
         setUserData({ ...userData, [name]: value });
     };
 
+    // Handle star rating change
+    const ratingChanged = (newRating) => {
+        setRating(newRating);
+    };
+
     // Send data to backend
     const contactForm = async (e) => {
         e.preventDefault();
         const { name, email, phone, message } = userData;
-
-        // Set the current date and time for createdAt field
         const createdAt = new Date().toISOString(); // ISO string format
 
         const token = localStorage.getItem('token');
@@ -90,7 +80,7 @@ const Touch = () => {
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                name, email, phone, message, createdAt // Include createdAt in the request
+                name, email, phone, message, rating, createdAt // Include rating in the request
             })
         });
         const data = await res.json();
@@ -99,7 +89,9 @@ const Touch = () => {
             notify();
         } else {
             notifysum();
+            // Reset the userData message and rating state after submission
             setUserData({ ...userData, message: "" });
+            setRating(0); // Reset the rating state to 0 after submission
         }
     };
 
@@ -144,7 +136,19 @@ const Touch = () => {
                                     <input type='number' id="contact_form_phone" className='contact-form-phone input_field' name='phone' value={userData.phone} onChange={handleInputs} placeholder='Your Phone' required />
                                 </div>
                                 <div className='contact_form_text'>
-                                    <textarea type='text' name='message' value={userData.message} onChange={handleInputs} id='' cols="30" rows="8" placeholder='Message'></textarea>
+                                    <textarea type='text' name='message' value={userData.message} onChange={handleInputs} cols="30" rows="8" placeholder='Message'></textarea>
+                                </div>
+
+                                <div className='contact_form_rating'>
+                                    <label>Rate our Service:</label>
+                                    <ReactStars
+                                        count={5}
+                                        onChange={ratingChanged}
+                                        size={24}
+                                        activeColor="#ffd700"
+                                        value={rating} // Set the initial value of rating
+                                        key={rating}
+                                    />
                                 </div>
 
                                 <Link type="submit" onClick={contactForm} className="btn btn-dark" style={{ marginTop: "2rem" }}>Send Message</Link>
