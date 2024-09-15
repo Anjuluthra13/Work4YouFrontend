@@ -1,5 +1,5 @@
 import React from 'react';
-import './Team.css'; 
+
 import Sudhir from '../image/Sudhir.jpeg'; 
 import Kamal from '../image/Kamal.jpeg'; 
 import Anju from '../image/Anju.jpeg';
