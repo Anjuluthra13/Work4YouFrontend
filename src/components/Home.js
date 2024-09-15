@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import image1 from "../image/babysitting.jpg";
 import image15 from "../image/homemaid.jpg";
 import image16 from "../image/logo1.jpg";
@@ -17,14 +17,16 @@ import image41 from '../imagesmall2/homemaid.jpg';
 import image44 from '../imagesmall2/electrician.jpg';
 import image46 from '../imagesmall2/painter.jpg';
 import Smallcard from '../navbarcom/Smallcard';
+import imageavtar from "../image/avtar.jpg";
+import ReactStars from "react-rating-stars-component";
 
 const Home = () => {
   const [getuserdata, setUserdata] = useState([]);
   const [userName, setUserName] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const history = useHistory();
-
+  const defaultAvatar = imageavtar;
+  const scrollContainerRef = useRef(null);
 
   const userHome = async () => {
     try {
@@ -46,13 +48,12 @@ const Home = () => {
     } catch (err) {
       setErrorMessage('An error occurred while fetching data.');
       console.error(err);
-      history.push('/login');
     }
   };
 
   const getdata = async () => {
     try {
-      const res = await fetch("/get-massage", {
+      const res = await fetch("https://work4youbackend-production.up.railway.app/api/feedback", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -72,16 +73,22 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const name = localStorage.getItem('userName');
-  
-    if (token && name) {
-      setUserName(name);
-      userHome();  // Load additional user data if necessary
-    } else {
-      history.push('/login');  // Redirect to login if not authenticated
-    }
+    userHome();
     getdata();
+  }, []);
+
+  useEffect(() => {
+    const scrollInterval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollBy({
+          top: 0,
+          left: 200, // Scroll right to left
+          behavior: 'smooth',
+        });
+      }
+    }, 3000); // 3 seconds interval
+
+    return () => clearInterval(scrollInterval); // Cleanup
   }, []);
 
   // Display error message if present
@@ -89,7 +96,7 @@ const Home = () => {
     return <div>Error: {errorMessage}</div>;
   }
 
-
+  
   return (
     <>
 <div className='background9  rowv2'>
@@ -440,6 +447,65 @@ const Home = () => {
     </div>
   </center>
 </div>
+
+<div className="card-5" style={{ width: '100%', padding: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
+          <h2 style={{ textAlign: 'center' }}>User Reviews</h2>
+          <h5 style={{ textAlign: 'center' }}>{userName}</h5>
+          <p style={{ textAlign: 'center' }}>
+            {feedbackMessage}
+            <Link to="/touch">Write Feedback</Link>
+          </p>
+        </div>
+
+        <div className="card-5" style={{ width: '100%', padding: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
+          {getuserdata.length > 0 && (
+            <div
+              ref={scrollContainerRef}
+              style={{
+                maxHeight: '200px',
+                overflowX: 'auto', // Horizontal scrolling
+                display: 'flex', // Flexbox for horizontal layout
+                scrollBehavior: 'smooth',
+              }}
+            >
+              {getuserdata.map((user, index) => (
+                <div
+                  key={index}
+                  style={{
+                    minWidth: '500px', // Ensure each review fits in the container
+                    padding: '10px',
+                    boxSizing: 'border-box',
+                    borderRight: '1px solid #ccc', // Separate each review with a border
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      src={user.avatar || defaultAvatar} // Use user's avatar or default
+                      alt={`${user.name}'s avatar`}
+                      style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '10px' }}
+                    />
+                    <h5 style={{ margin: '0', fontSize: '18px' }}>{user.name}</h5>
+                  </div>
+                  <p style={{ fontSize: '17px', marginTop: '8px', textAlign: 'center' }}>{user.message}</p>
+                  
+                  {/* Display user rating */}
+                  <ReactStars
+                    count={5}
+                    size={24}
+                    value={user.rating} // Use the rating value from the user data
+                    edit={false} // Make stars read-only
+                    activeColor="#ffd700"
+                    marginBottom='10px'
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
 
         <div className='row head2 footer-booknow' >
