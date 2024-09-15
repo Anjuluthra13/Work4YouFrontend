@@ -1,25 +1,21 @@
-import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Edit = () => {
-
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
-
-
+        window.scrollTo(0, 0);
+    }, []);
 
     const history = useHistory();
-    const [userData, setUserData] = useState({ name: "", email: "", phone: "", password: "", address: ""  , city:"" , state:"" });
+    const [userData, setUserData] = useState({ name: "", email: "", phone: "", password: "", address: "", city: "", state: "" });
 
     const callAboutPage = async () => {
         try {
             const token = localStorage.getItem('token'); // Assume token is stored in localStorage
-    
-            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+
+            const res = await fetch('http://localhost:8080/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -28,27 +24,22 @@ const Edit = () => {
                 },
                 credentials: "include"
             });
-    
+
             const data = await res.json();
-            console.log(data);
             setUserData(data);
-    
+
             if (res.status !== 200) {
                 throw new Error(res.error);
             }
-    
+
         } catch (err) {
             console.log(err);
-            history.push('/login');
         }
     }
-
 
     useEffect(() => {
         callAboutPage();
     }, []);
-
-
 
     const handleInputs = (e) => {
         const name = e.target.name;
@@ -56,18 +47,8 @@ const Edit = () => {
         setUserData({ ...userData, [name]: value });
     }
 
-    //send data to backend
-
-    const notifysum = () => toast.success("Update succesfully", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: 0,
-    });
-    const notify = () => toast.error("Please Fill data", {
+    // Toast notification configurations
+    const notifysum = () => toast.success("Update successfully", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -77,6 +58,15 @@ const Edit = () => {
         progress: 0,
     });
 
+    const notify = () => toast.error("Please fill all fields", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 0,
+    });
 
     const contactForm = async (e) => {
         e.preventDefault();
@@ -102,7 +92,7 @@ const Edit = () => {
             if (res.status === 200) {
                 notifysum();
                 setUserData({ ...userData });
-                window.location.reload();  // Reload page after success
+                history.push("/about");  // Redirect to About page after successful update
             } else {
                 throw new Error(data.error || "Failed to update user");
             }
@@ -111,9 +101,6 @@ const Edit = () => {
             notify();  // Display error notification
         }
     };
-
-
-
     return (
         <>
             <div className='cantainer' style={{ background: "lightgrey" }}>
@@ -126,7 +113,7 @@ const Edit = () => {
                     </center>
 
                 </div>
-                <div className='row mt-2 mb-5' style={{ width: "31rem", marginLeft: "1rem" }}>
+                <div className='row mt-2 mb-5' style={{ width: "35rem", marginLeft: "1rem", marginRight: "1rem" }}>
 
                     <form method='PUT'>
                         <div className="input-container" style={{ marginTop: '1.5rem' }}>
@@ -160,8 +147,9 @@ const Edit = () => {
                             <textarea className="input-field" rows="5" type="text" placeholder="address" name="address" id='address' autoComplete='off' value={userData.address} onChange={handleInputs} />
                         </div>
 
-
+                       
                         <button type="submit" className="btn btn-dark" id="signup" value="register" style={{ marginTop: "2rem" , width:"100%" }} onClick={contactForm}>Update</button>
+                        
                     </form>
                 </div>
 
