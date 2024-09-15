@@ -95,7 +95,7 @@ const Home = () => {
       if (scrollContainerRef.current) {
         scrollContainerRef.current.scrollBy({
           top: 0,
-          left: -200, // Scroll right to left
+          left: 200, // Scroll right to left
           behavior: 'smooth',
         });
       }
@@ -485,7 +485,7 @@ const Home = () => {
                 <div
                   key={index}
                   style={{
-                    minWidth: '500px', // Ensure each review fits in the container
+                    minWidth: '520px', // Ensure each review fits in the container
                     padding: '10px',
                     boxSizing: 'border-box',
                     borderRight: '1px solid #ccc', // Separate each review with a border
