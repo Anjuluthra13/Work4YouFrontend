@@ -19,7 +19,7 @@ const Card = ({ team }) => {
           {Array.from({ length: 5 }, (_, index) => (
             <i
               key={index}
-              className={fas fa-star${index < team.rating ? '' : '-half-alt'}}
+              className={`fas fa-star${index < team.rating ? '' : '-half-alt'}`}
               style={{ color: index < team.rating ? '#e3c414' : '' }}
             />
           ))}
@@ -27,7 +27,7 @@ const Card = ({ team }) => {
         </div>
         <div className="tags">
           {team.tags.map((tag, index) => (
-            <span key={index} className={tag${tag.color ? ' ' + tag.color : ''}}>{tag.text}</span>
+            <span key={index} className={`tag${tag.color ? ' ' + tag.color : ''}`}>{tag.text}</span>
           ))}
         </div>
         <p className="desc">{team.desc}</p>
