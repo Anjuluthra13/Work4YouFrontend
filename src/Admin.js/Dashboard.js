@@ -39,7 +39,7 @@ const Dashboard = () => {
     useEffect(() => {
         fetchData('https://work4youbackend-production.up.railway.app/api/feedback', setUserfeedback);
         fetchData('https://work4youbackend-production.up.railway.app/api/auth/users', setUserdata);
-        fetchData('/get-order', setUserorder);
+        fetchData('https://work4youbackend-production.up.railway.app/api/orders', setUserorder);
         fetchData('https://work4youbackend-production.up.railway.app/api/hire', setUserdelivery);
         fetchData('https://work4youbackend-production.up.railway.app/api/book-now', setUsermonth);
         fetchData('/get-admin', setAdminData);
