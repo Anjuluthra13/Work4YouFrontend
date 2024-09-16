@@ -151,7 +151,7 @@ const Showorder = () => {
               </div>
             ))}
           </div>
-          <Link className="btn btn-dark mb-2 mt-5" style={{ width: "10rem" }} onClick={() => filterResult(userData._id)}>Show Payments</Link>
+          <Link className="btn btn-dark mb-2 mt-5" style={{ width: "10rem" }} to="/about">Back</Link>
         </div>
       </div>
     </>
