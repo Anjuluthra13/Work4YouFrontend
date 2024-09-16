@@ -14,11 +14,13 @@ const Showorder = () => {
 
   const callAboutPage = async () => {
       try {
-          const res = await fetch('/about', {
+        const token = localStorage.getItem('token');  
+          const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
               method: "GET",
               headers: {
                   Accept: "application/json",
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`
               },
               credentials: "include"
 
@@ -46,7 +48,7 @@ const Showorder = () => {
 
   const getdata = async () => {
 
-    const res = await fetch("/get-order", {
+    const res = await fetch("https://work4youbackend-production.up.railway.app/api/hire", {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -98,15 +100,17 @@ const Showorder = () => {
 
         <div className='row rowv4   card-5' style={{ background: "white", border: "5px solid yellow" }}>
 
-          <div className='col-md-3 mt-5'>
+          <div className='col-md-2 mt-5'>
+            <center><h4> ServiceName </h4></center>
+          </div>
+          <div className='col-md-2 mt-5'>
             <center><h4> Amount </h4></center>
           </div>
-
 
           <div className='col-md-3 mt-5'>
            <h4 className=''> OrderID </h4>
           </div>
-          <div className='col-md-3 mt-5'>
+          <div className='col-md-2 mt-5'>
           <h4 className=''> paymentID </h4>
           </div>
        
@@ -125,18 +129,31 @@ const Showorder = () => {
                 return (
                   <>
                     <div className='row mx-2'  >
-                      <div className='col-md-2 ' style={{height:"2rem"}}>
-                        <center><p> {element.amount}</p></center>
+                    <div className='col-md-2 ' style={{height:"2rem"}}>
+                        <center><p> {element.orderItems.map((item, index) => (
+                                                        <div key={index}>{item.service}</div> // Assuming serviceName is the property to display
+                                                         ))}</p></center>
+                      </div>
+                      <div className='col-md-1 ' style={{height:"2rem"}}>
+                        <center><p> {element.totalAmount}</p></center>
                       </div>
                       <div className='col-md-3' style={{height:"2rem"}}>
-                        <center> <p> {element.orderId}</p></center>
+                        <center> <p> {element.id.slice(6)}</p></center>
                       </div>
-                      <div className='col-md-3' style={{height:"2rem"}}>
-                        <center><p>{element.paymentId}</p></center>
+                      <div className='col-md-2' style={{height:"2rem"}}>
+                        <center><p>{element.userId}</p></center>
                       </div>
                    
                       <div className='col-md-4 ' style={{height:"2rem"}}>
-                        <center>  <p >{element.date}</p></center>
+                        <center>  <p >{new Date(element.orderDate).toLocaleString('en-US', {
+                                                            year: 'numeric',
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            second: '2-digit',
+                                                            hour12: true, // Use false for 24-hour format
+                                                        })}</p></center>
                       </div>
                     </div>
                  
@@ -145,18 +162,9 @@ const Showorder = () => {
               })
             }
 
-
-
           </div>
           <Link  className="btn btn-dark mb-2 mt-5"  style={{width:"10rem"}} onClick={() => filterResult(userData._id)}>Show Payments </Link>
         </div>
-       
-
-       
-
-
-
-
       </div>
 
     </>
