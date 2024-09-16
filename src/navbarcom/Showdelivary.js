@@ -138,7 +138,7 @@ const Showdelivary = () => {
 
                     <Link className="btn btn-dark mb-2 mt-5 mx-2" style={{ width: "12rem" }} onClick={() => filterResult(userData._id)}>Upcoming Orders</Link>
                     <Link className="btn btn-dark mb-2 mt-5 mx-2" style={{ width: "12rem" }} to='#'>Completed Orders</Link>
-                    <Link className="btn btn-dark mb-2 mt-5 mx-2" style={{ width: "12rem" }} to='/showorder'>Show paymentID</Link>
+                    <Link className="btn btn-dark mb-2 mt-5 mx-2" style={{ width: "12rem" }} to='/about'>Back</Link>
                 </div>
             </div>
         </>
