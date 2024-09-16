@@ -30,7 +30,7 @@ const Checkout = () => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/auth/getdata', {
+      const response = await axios.get('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -157,7 +157,7 @@ const Checkout = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/orders', orderData, {
+      const response = await axios.post('https://work4youbackend-production.up.railway.app/api/orders', orderData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
