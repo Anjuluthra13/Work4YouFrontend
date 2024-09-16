@@ -42,7 +42,7 @@ const Showorder = () => {
   // Fetch all order data
   const getdata = async () => {
     try {
-      const res = await fetch("https://work4youbackend-production.up.railway.app/api/hire", {
+      const res = await fetch("https://work4youbackend-production.up.railway.app/api/orders", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
