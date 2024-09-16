@@ -8,7 +8,7 @@ const Showorder = () => {
   }, [])
  
   const [getuserdata, setUserdata] = useState([]);
-  const [data, setData] = useState(getuserdata);
+  const [data, setData] = useState([]);
 
   const [userData, setUserData] = useState({});
 
