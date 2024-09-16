@@ -72,12 +72,14 @@ const Showorder = () => {
     getdata();
   }, [])
 
-  const filterResult = (catItem) => {
-    const result = getuserdata.filter((curData) => {
-        return curData.ID === catItem;
-    });
+const filterResult = (catItem) => {
+  if (Array.isArray(getuserdata)) {  // Check if getuserdata is an array
+    const result = getuserdata.filter((curData) => curData.ID === catItem);
     setData(result);
-}
+  } else {
+    console.error("getuserdata is not an array or is undefined", getuserdata);
+  }
+};
 
   return (
     <>
