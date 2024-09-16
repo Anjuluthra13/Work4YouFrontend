@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.teampage {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f4f4f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
+
+.teambody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+.teamwrapper {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 20px;
+}
+
+.teamcard {
+    position: relative;
+    width: 325px;
+    height: 450px;
+    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.teamcard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .4);
+}
+
+.teamposter {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.teamposter img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.teamcard:hover .teamposter img {
+    transform: scale(1.1);
+}
+
+.teamdetails {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    padding: 1.5em;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px) saturate(120%);
+    transition: bottom 0.3s ease;
+    color: #fff;
+}
+
+.teamcard:hover .teamdetails {
+    bottom: 0;
+}
+
+.teamdetails h1 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.teamdetails h2 {
+    font-size: 1em;
+    margin-bottom: 10px;
+    opacity: 0.6;
+}
+
+.teamrating {
+    display: flex;
+    gap: 0.25em;
+    margin-bottom: 15px;
+}
+
+.teamrating i {
+    color: #e3c414;
+}
+
+.teamrating span {
+    margin-left: 0.25em;
+}
+
+.teamtags {
+    display: flex;
+    gap: 0.375em;
+    margin-bottom: 0.875em;
+    font-size: 0.85em;
+}
+
+.teamtags .teamtag {
+    padding: 0.35rem 0.65rem;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+}
+
+.teamdesc {
+    opacity: 0.8;
+    line-height: 1.5;
+    margin-bottom: 1em;
+}
+
+.teamsocial-links {
+    text-align: center;
+}
+
+.teamsocial-links h3 {
+    margin-bottom: 0.5em;
+}
+
+.teamsocial-links ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 0.75em;
+}
+
+.teamsocial-links ul li {
+    margin: 0;
+}
+
+.teamsocial-links ul li a {
+    color: #fff;
+    font-size: 1.25em;
+    transition: color 0.3s ease;
+}
+
+.teamsocial-links ul li a:hover {
+    color: #e3c414;
+}
