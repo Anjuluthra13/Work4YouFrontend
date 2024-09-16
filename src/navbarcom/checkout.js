@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { CartState } from '../reducer/Context';
 import { useHistory } from 'react-router-dom';
-import qrImage from '../Imagesmall/qrimage.jpeg'; // Replace with the path to your QR code image
+import axios from 'axios'; // Ensure Axios is imported
+import qrImage from '../Imagesmall/qrimage.jpeg';
 
 const Checkout = () => {
   const history = useHistory();
-  const {
-    state: { cart },
-    userData,
-  } = CartState();
-
+  const { state: { cart } } = CartState();
+  const [userData, setUserData] = useState(null); 
   const [paymentMethod, setPaymentMethod] = useState('');
   const [cardType, setCardType] = useState('');
   const [cardDetails, setCardDetails] = useState({
@@ -20,23 +18,42 @@ const Checkout = () => {
   });
   const [modalMessage, setModalMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       history.push('/'); // Redirect to home if not logged in
+    } else {
+      fetchUserData(token); // Fetch user data using the JWT token
     }
   }, [history]);
 
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/auth/getdata', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserData(response.data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setModalMessage('Failed to fetch user data. Please try again.');
+      setIsModalOpen(true);
+    }
+  };
+
+  // Calculate total
   const total = cart.reduce((acc, curr) => acc + Number(curr.price) * curr.qty, 0);
 
+  // Handle payment method change
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
     setCardType('');
     setModalMessage('');
   };
 
+  // Handle card type change
   const handleCardTypeChange = (type) => {
     setCardType(type);
     setCardDetails({
@@ -48,35 +65,29 @@ const Checkout = () => {
     setModalMessage('');
   };
 
+  // Format card number
   const formatCardNumber = (value) => {
     const cleaned = value.replace(/\D/g, '');
-    const formatted = cleaned.match(/.{1,4}/g).join(' ').slice(0, 19);
+    const formatted = cleaned.match(/.{1,4}/g)?.join(' ').slice(0, 19) || '';
     return formatted;
   };
 
+  // Handle card detail changes
   const handleCardDetailChange = (e) => {
     const { name, value } = e.target;
     if (name === 'cardNumber') {
       const formattedNumber = formatCardNumber(value);
-      setCardDetails({
-        ...cardDetails,
-        [name]: formattedNumber,
-      });
+      setCardDetails((prev) => ({ ...prev, [name]: formattedNumber }));
     } else if (name === 'cvv') {
       const formattedCVV = value.replace(/\D/g, '').slice(0, 3);
-      setCardDetails({
-        ...cardDetails,
-        [name]: formattedCVV,
-      });
+      setCardDetails((prev) => ({ ...prev, [name]: formattedCVV }));
     } else {
-      setCardDetails({
-        ...cardDetails,
-        [name]: value,
-      });
+      setCardDetails((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = () => {
+  // Handle form submission
+  const handleSubmit = async () => {
     if (paymentMethod === 'Card' && cardType) {
       const { cardNumber, cardHolder, expiryDate, cvv } = cardDetails;
       const cardNumberDigits = cardNumber.replace(/\s/g, '');
@@ -122,29 +133,61 @@ const Checkout = () => {
         setIsModalOpen(true);
         return;
       }
-
-      setModalMessage('Payment Successful');
-      setIsModalOpen(true);
     } else if (paymentMethod === 'Cash') {
-      setModalMessage('Order Successful');
-      setIsModalOpen(true);
+      // Cash payment logic here
     } else if (paymentMethod === 'UPI') {
-      setModalMessage('Payment Successful');
-      setIsModalOpen(true);
+      // UPI payment logic here
     } else {
       setModalMessage('Please select a payment method');
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Prepare order data
+    const orderData = {
+      userId: userData.id, // Use the user ID fetched from the API
+      paymentMethod,
+      cardDetails: paymentMethod === 'Card' ? cardDetails : null,
+      totalAmount: total,
+      orderItems: cart.map(prod => ({
+        service: prod.service,
+        price: prod.price,
+        quantity: prod.qty,
+      })), // Include order items in the order data
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/orders', orderData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      console.log('Order created:', response.data);
+      setModalMessage('Order placed successfully!');
+      setIsModalOpen(true);
+      
+    } catch (error) {
+      console.error('Error creating order:', error);
+      setModalMessage('Failed to place the order. Please try again.');
       setIsModalOpen(true);
     }
   };
 
+  
   const closeModal = () => {
     setIsModalOpen(false);
     setModalMessage('');
-
-    // Show alert with the custom message
-    alert(`Thank you for choosing Work4You, ${userData.name}. All the details will be sent to you on your email soon.`);
+    alert(`Thank you for choosing Work4You, ${userData ? userData.name : 'User'}. All the details will be sent to you on your email soon.`);
+  
+    // Redirect to home page
+    history.push('/'); // Redirect to home page
+    
+    // Use setTimeout to introduce a delay before reloading the page
+    setTimeout(() => {
+      window.location.reload(); // Reload the page after 2 seconds
+    }, 2000); // 2000 milliseconds = 2 seconds
   };
-
+  
   return (
     <div style={{ margin: '2rem auto', maxWidth: '600px', fontFamily: 'Arial, sans-serif' }}>
       <div>
@@ -215,32 +258,20 @@ const Checkout = () => {
             </button>
           </div>
           {paymentMethod === 'UPI' && (
-            <div style={{ marginTop: '1rem' }}>
-              <h4 style={{ marginBottom: '0.5rem', color: '#333' }}>UPI Payment</h4>
-              <p>Scan the QR code below to complete your payment:</p>
-              <img
-                src={qrImage}
-                alt="QR Code for UPI Payment"
-                style={{ maxWidth: '200px', height: 'auto', marginBottom: '1rem' }}
-              />
+            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+              <p style={{ marginBottom: '0.5rem', color: '#555' }}>Scan QR Code to Pay:</p>
+              <img src={qrImage} alt="QR Code" style={{ width: '150px', border: '1px solid #ccc', borderRadius: '5px' }} />
             </div>
           )}
           {paymentMethod === 'Card' && (
-            <div>
-              <h4 style={{ marginBottom: '0.5rem', color: '#333' }}>Select Card Type:</h4>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginBottom: '1rem',
-                }}
-              >
+            <div style={{ marginTop: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <button
-                  onClick={() => handleCardTypeChange('Visa')}
+                  onClick={() => handleCardTypeChange('Credit')}
                   style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: cardType === 'Visa' ? '#007bff' : '#f7f7f7',
-                    color: cardType === 'Visa' ? 'white' : '#555',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: cardType === 'Credit' ? '#007bff' : '#f7f7f7',
+                    color: cardType === 'Credit' ? 'white' : '#555',
                     border: '1px solid #ccc',
                     borderRadius: '5px',
                     flex: 1,
@@ -248,94 +279,90 @@ const Checkout = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  Visa
+                  Credit Card
                 </button>
                 <button
-                  onClick={() => handleCardTypeChange('MasterCard')}
+                  onClick={() => handleCardTypeChange('Debit')}
                   style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: cardType === 'MasterCard' ? '#007bff' : '#f7f7f7',
-                    color: cardType === 'MasterCard' ? 'white' : '#555',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: cardType === 'Debit' ? '#007bff' : '#f7f7f7',
+                    color: cardType === 'Debit' ? 'white' : '#555',
                     border: '1px solid #ccc',
                     borderRadius: '5px',
                     flex: 1,
                     cursor: 'pointer',
                   }}
                 >
-                  MasterCard
+                  Debit Card
                 </button>
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
-                  Card Number:
-                </label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Card Number:</label>
                 <input
                   type="text"
                   name="cardNumber"
                   value={cardDetails.cardNumber}
                   onChange={handleCardDetailChange}
-                  placeholder="1234 5678 9012 3456"
                   style={{
-                    width: '100%',
                     padding: '0.75rem',
+                    width: '100%',
                     borderRadius: '5px',
                     border: '1px solid #ccc',
+                    boxSizing: 'border-box',
                   }}
+                  maxLength="19"
                 />
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
-                  Card Holder Name:
-                </label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Card Holder Name:</label>
                 <input
                   type="text"
                   name="cardHolder"
-                  value={cardDetails.cardHolder}
+                  value={cardDetails.cardHolder || userData.name} // Use userData name if cardHolder is empty
                   onChange={handleCardDetailChange}
-                  placeholder="John Doe"
                   style={{
-                    width: '100%',
                     padding: '0.75rem',
+                    width: '100%',
                     borderRadius: '5px',
                     border: '1px solid #ccc',
+                    boxSizing: 'border-box',
                   }}
                 />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <div style={{ flex: 1, marginRight: '0.5rem' }}>
-                  <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
-                    Expiry Date (MM/YY):
-                  </label>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>Expiry Date (MM/YY):</label>
                   <input
                     type="text"
                     name="expiryDate"
                     value={cardDetails.expiryDate}
                     onChange={handleCardDetailChange}
-                    placeholder="MM/YY"
                     style={{
-                      width: '100%',
                       padding: '0.75rem',
+                      width: '100%',
                       borderRadius: '5px',
                       border: '1px solid #ccc',
+                      boxSizing: 'border-box',
                     }}
+                    maxLength="5"
+                    placeholder="MM/YY"
                   />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label style={{ color: '#333', display: 'block', marginBottom: '0.5rem' }}>
-                    CVV:
-                  </label>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', color: '#555' }}>CVV:</label>
                   <input
                     type="text"
                     name="cvv"
                     value={cardDetails.cvv}
                     onChange={handleCardDetailChange}
-                    placeholder="123"
                     style={{
-                      width: '100%',
                       padding: '0.75rem',
+                      width: '100%',
                       borderRadius: '5px',
                       border: '1px solid #ccc',
+                      boxSizing: 'border-box',
                     }}
+                    maxLength="3"
                   />
                 </div>
               </div>
@@ -345,54 +372,55 @@ const Checkout = () => {
         <button
           onClick={handleSubmit}
           style={{
-            width: '100%',
-            padding: '0.75rem',
-            backgroundColor: '#007bff',
+            padding: '1rem 2rem',
+            backgroundColor: '#28a745',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
+            width: '100%',
           }}
         >
-          Confirm Payment
+          Pay Now
         </button>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div
           style={{
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            zIndex: 1000,
           }}
         >
           <div
             style={{
               backgroundColor: 'white',
               padding: '2rem',
-              borderRadius: '10px',
-              width: '80%',
-              maxWidth: '500px',
+              borderRadius: '5px',
+              boxShadow: '0px 0px 10px rgba(0,0,0,0.25)',
               textAlign: 'center',
+              maxWidth: '400px',
+              width: '100%',
             }}
           >
-            <h2 style={{ marginBottom: '1rem' }}>{modalMessage}</h2>
+            <p style={{ marginBottom: '0.5rem', color: '#333' }}>{modalMessage}</p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <button
                 onClick={closeModal}
                 style={{
-                  padding: '0.75rem 1.5rem',
+                  padding: '0.5rem 1rem', // Added 1rem padding for horizontal space
                   backgroundColor: '#007bff',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '5px',
+                  borderRadius: '3px',
                   cursor: 'pointer',
                 }}
               >
@@ -400,35 +428,6 @@ const Checkout = () => {
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Loading Spinner */}
-      {isLoading && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            className="spinner"
-            style={{
-              width: '50px',
-              height: '50px',
-              border: '5px solid #ccc',
-              borderTop: '5px solid #007bff',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
         </div>
       )}
     </div>
