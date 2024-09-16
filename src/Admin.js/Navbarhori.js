@@ -1,18 +1,22 @@
-import React from 'react'
-import { Button } from 'react-bootstrap'
-import { Link,useHistory } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Button } from 'react-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
+import { UserContext } from '../App'; // Adjust the import path as necessary
 
 const Navbarhori = () => {
   const history = useHistory();
+  const { dispatchs } = useContext(UserContext); // Use context to get dispatchs
 
   const handleLogout = () => {
-    // Add your logout logic here, e.g., clear session data
-    console.log("User logged out");
+    localStorage.removeItem("jwtToken"); // Clear the token
+    console.log("Token removed from localStorage"); // Debugging log
 
-    // Redirect to loginadmin page
-    history.push('/loginadmin');
-  }
+    dispatchs({ type: "admin", payload: false }); // Update context state
+    console.log("Context state updated to admin: false"); // Debugging log
 
+    history.push("/loginadmin"); // Redirect to login
+    console.log("Redirecting to /loginadmin"); // Debugging log
+  };
   return (
     <div className="filters2">
       <ul style={{ marginLeft: "-2rem" }}>
@@ -48,18 +52,18 @@ const Navbarhori = () => {
         <li><p style={{ color: "#424242" }}>Booking Information</p></li>
         <li><h5><i className="fas fa-shopping-cart" style={{ fontSize: "22px" }}></i> <Link to='/bookformonth' style={{ textDecoration: "none", color: "#121212" }}> Book for Month </Link></h5></li>
         <br></br>
-        <hr></hr>
+        {/* <hr></hr>
         <li><p style={{ color: "#424242" }}>Add Product Information</p></li>
         <li><h4><i className="fas fa-shopping-cart" style={{ fontSize: "22px" }}></i> <Link to='/addproduct' style={{ textDecoration: "none", color: "#121212" }}> Add Product </Link></h4></li>
-        <br></br>
+        <br></br> */}
         <hr></hr>
         <li><p style={{ color: "#424242" }}>Application Information</p></li>
         <li><h5><i className="fa fa-newspaper-o" style={{ fontSize: "22px" }}></i> <Link to='/application' style={{ textDecoration: "none", color: "#121212" }}> Application </Link></h5></li>
         <br></br>
-        <hr></hr>
+        {/* <hr></hr>
         <li><p style={{ color: "#424242" }}>Local Service</p></li>
         <li><h5><i className="fa fa-newspaper-o" style={{ fontSize: "22px" }}></i> <Link to='/localadd' style={{ textDecoration: "none", color: "#121212" }}> Local Query </Link></h5></li>
-        <br></br>
+        <br></br> */}
         
        
       </ul>
