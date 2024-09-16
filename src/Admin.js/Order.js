@@ -56,7 +56,7 @@ const Order = () => {
                                         <thead>
                                             <tr className="table-active">
                                                 <th scope="col"><h5>Order Id</h5></th>
-                                                <th scope="col"><h5>Name</h5></th>
+                                                <th scope="col"><h5>Service Name</h5></th>
                                                 <th scope="col"><h5>Amount</h5></th>
                                                 <th scope="col"><h5>PaymentID</h5></th>
                                                 <th scope="col"><h5>Date</h5></th>
