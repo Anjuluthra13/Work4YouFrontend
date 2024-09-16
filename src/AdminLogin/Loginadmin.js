@@ -35,4 +35,3 @@ const Loginadmin = () => {
             history.push("/admin");
         }
     }
-    
