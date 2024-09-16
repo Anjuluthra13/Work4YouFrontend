@@ -60,10 +60,10 @@ const Tranfooter = () => {
 
                                         <li className='zoom marginFooter' ><Link to="/contactus" style={{  color:"white" ,textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Contact Us</Link></li>
                                                 <li className='zoom marginFooter' ><Link to="/touch" style={{  color:"white" ,textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Feedback</Link></li>
-                                        // <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none",fontFamily: "Poppins" }}> <i className="fa fa-angle-right" aria-hidden="true"></i> Privacy policy</Link></li>
-                                        // <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i>  Term & Conditon</Link></li>
-                                        // <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Make Payment</Link></li>
-                                        // <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" ,  textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Review</Link></li>
+                                        {/* <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none",fontFamily: "Poppins" }}> <i className="fa fa-angle-right" aria-hidden="true"></i> Privacy policy</Link></li>
+                                        <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i>  Term & Conditon</Link></li>
+                                        <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" , textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Make Payment</Link></li>
+                                        <li className='zoom marginFooter'> <Link to="/" style={{ color:"white" ,  textDecoration: "none" ,fontFamily: "Poppins"}}><i className="fa fa-angle-right" aria-hidden="true"></i> Review</Link></li> */}
                                     </ul>
                                 </div>
                                 <div className="col-sm-6 col-md-4">
