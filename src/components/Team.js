@@ -19,7 +19,7 @@ const Card = ({ team }) => {
           {Array.from({ length: 5 }, (_, index) => (
             <i
               key={index}
-              className={`fas fa-star${index < Math.floor(team.rating) ? '' : '-half-alt'}`} // Corrected star icon syntax
+              className={`fas fa-star${index < Math.floor(team.rating) ? '' : '-half-alt'}`}
               style={{ color: index < Math.floor(team.rating) ? '#e3c414' : '' }}
             />
           ))}
@@ -27,7 +27,7 @@ const Card = ({ team }) => {
         </div>
         <div className="teamtags">
           {team.tags.map((tag, index) => (
-            <span key={index} className={`teamtag${tag.color ? ' ' + tag.color : ''}`}>{tag.text}</span> // Corrected class name syntax
+            <span key={index} className="teamtag">{tag.text}</span>
           ))}
         </div>
         <p className="teamdesc">{team.desc}</p>
