@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbarhori from './Navbarhori';
 import Data from '../navbarcom/Data';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Dashboard = () => {
     const [data, setData] = useState(Data.productData);
@@ -11,6 +11,15 @@ const Dashboard = () => {
     const [getUserfeedback, setUserfeedback] = useState([]);
     const [getUsermonth, setUsermonth] = useState([]);
     const [adminData, setAdminData] = useState({});
+    const history = useHistory();
+    
+    useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+            // Redirect to login page if token is not present
+            history.push("/loginadmin");
+        }
+    }, [history]);
 
     const fetchData = async (url, setState) => {
         try {
