@@ -19,7 +19,7 @@ const Card = ({ team }) => {
           {Array.from({ length: 5 }, (_, index) => (
             <i
               key={index}
-              className={fas fa-star${index < team.rating ? '' : '-half-alt'}}
+              className={`fas fa-star${index < Math.floor(team.rating) ? '' : '-half-alt'}`}
               style={{ color: index < team.rating ? '#e3c414' : '' }}
             />
           ))}
