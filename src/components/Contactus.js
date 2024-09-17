@@ -1,22 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom"; // Import useHistory for navigation
-import emailjs from '@emailjs/browser';
+import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Contactus = () => {
-  const history = useHistory(); // Initialize useHistory
-
+  const [userData, setUserData] = useState({ name: "", email: "", phone: "", message: "", createdAt: "" });
+    const [rating, setRating] = useState(0); // State for star rating
+    const history = useHistory(); 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
+  }, []);
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-      history.push('/login'); // Redirect to login if not authenticated
+  const userContact = async () => {
+    try {
+        const token = localStorage.getItem('token');
+
+        // Check if token is not present
+        if (!token) {
+            history.push('/login');  // Redirect to login if no token
+            return;
+        }
+
+        const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+        });
+        const data = await res.json();
+        setUserData({ ...userData, name: data.name, email: data.email, phone: data.phone });
+
+        if (!res.status === 200) {
+            const error = new Error(res.error);
+            throw error;
+        }
+    } catch (err) {
+        console.log(err);
     }
-  }, [history]); // Add history as a dependency
+};
 
-  const notify = () => toast.success("Successfully sent!", {
+useEffect(() => {
+    userContact();
+}, []);
+
+
+  const notify = () => toast.success("Successfully submitted", {
     position: "top-center",
     autoClose: 1000,
     hideProgressBar: false,
@@ -26,31 +56,28 @@ const Contactus = () => {
     progress: 0,
   });
 
-  const sendCos = async (e) => {
+  const hanldeSumbit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
 
-    emailjs.sendForm('service_rzwaqzn', 'template_067qagk', e.target, 'user_V5TGFJCZN2Nm8MmZaBWfj')
-      .then(res => {
-        console.log(res);
-        notify(); // Call notify on successful submission
-        window.location.reload(); // Reload the page after successful submission
-      }).catch(err => console.log(err));
+    const contactData = {
+      name: formData.get("user_name"),
+      phone: formData.get("user_phone"),
+      email: formData.get("user_email"),
+      subject: formData.get("user_sub"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await axios.post('https://work4youbackend-production.up.railway.app/api/contact', contactData);
+      console.log(response.data);
+      notify();
+      e.target.reset(); // Reset the form after submission
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+    }
   };
 
-  const sendEmail = async (e) => {
-    e.preventDefault();
-    emailjs.sendForm('service_rzwaqzn', 'template_k82n7lc', e.target, 'user_V5TGFJCZN2Nm8MmZaBWfj')
-      .then(res => {
-        console.log(res);
-      }).catch(err => console.log(err));
-  };
-
-  const handleSubmit = (e) => {
-    sendCos(e);
-    sendEmail(e);
-  };
-
-  // connect with firebase
 
   return (
     <>
@@ -78,13 +105,15 @@ const Contactus = () => {
                 <div className="contact-rightside col-12 col-lg-7">
 
                   <center> <h1 style={{ marginBottom: "3rem", marginTop: "1rem", color: "#121212" }}>Contact With our Team</h1></center>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={hanldeSumbit} >
                     <div className="row">
                       <div className="col-12 col-lg-6 contact-input-feild" style={{ marginTop: "-3rem", fontWeight: "bold" }}>
                         <p style={{ color: "#121212", fontSize: "17px", marginLeft: "0px", marginTop: "16px", marginBottom: "5px" }}>FullName:</p>
                         <input
                           type="text"
                           name="user_name"
+                          value={userData.name}
+                          
                           id=""
                           className="form-control"
 
@@ -95,6 +124,7 @@ const Contactus = () => {
                         <input
                           type="text"
                           name="user_phone"
+                          value={userData.phone}
                           id=""
                           className="form-control"
                         />
@@ -107,6 +137,7 @@ const Contactus = () => {
                         <input
                           type="text"
                           name="user_email"
+                          value={userData.email}
                           className="form-control"
                         />
                       </div>
