@@ -57,13 +57,12 @@ const Navbarhori = () => {
         <li><h4><i className="fas fa-shopping-cart" style={{ fontSize: "22px" }}></i> <Link to='/addproduct' style={{ textDecoration: "none", color: "#121212" }}> Add Product </Link></h4></li>
         <br></br> */}
         <hr></hr>
-        <li><p style={{ color: "#424242" }}>Application Information</p></li>
+        <li><p style={{ color: "#424242" }}>Feedback</p></li>
         <li><h5><i className="fa fa-newspaper-o" style={{ fontSize: "22px" }}></i> <Link to='/application' style={{ textDecoration: "none", color: "#121212" }}> Application </Link></h5></li>
         <br></br>
-        {/* <hr></hr>
-        <li><p style={{ color: "#424242" }}>Local Service</p></li>
+        <li><p style={{ color: "#424242" }}>Contact</p></li>
         <li><h5><i className="fa fa-newspaper-o" style={{ fontSize: "22px" }}></i> <Link to='/localadd' style={{ textDecoration: "none", color: "#121212" }}> Local Query </Link></h5></li>
-        <br></br> */}
+        <br></br>
         
        
       </ul>
