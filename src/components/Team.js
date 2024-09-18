@@ -5,7 +5,7 @@ import Kamal from '../image/Kamal.jpeg';
 import Anju from '../image/Anju.jpeg';
 import Sandhya from '../image/Sandhya.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaLinkedin, FaGithub, FaLink } from 'react-icons/fa'; 
+import { faLinkedin, faGithub, faLink } from '@fortawesome/free-solid-svg-icons';
 
 const Card = ({ team }) => {
   return (
@@ -34,16 +34,15 @@ const Card = ({ team }) => {
         <p className="teamdesc">{team.desc}</p>
         <div className="teamsocial-links">
           <h3>Social Links</h3>
-          <ul>
-                {team.socialLinks.map((link, index) => (
-                <li key={index}>
-                  <a href={link.url} target="_blank" rel="noopener noreferrer">
-                    {link.icon === 'fa-linkedin' && <FontAwesomeIcon icon={faLinkedin} className="icon" />}
-                    {link.icon === 'fa-github' && <FontAwesomeIcon icon={faGithub} className="icon" />}
-                    {link.icon === 'fa-link' && <FontAwesomeIcon icon={faLink} className="icon" />}
-                  </a>
-                </li>
-              ))}
+          <ul>{team.socialLinks.map((link, index) => (
+            <li key={index}>
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.icon === 'fa-linkedin' && <FontAwesomeIcon icon={faLinkedin} className="icon" />}
+                {link.icon === 'fa-github' && <FontAwesomeIcon icon={faGithub} className="icon" />}
+                {link.icon === 'fa-link' && <FontAwesomeIcon icon={faLink} className="icon" />}
+              </a>
+            </li>
+          ))}
           </ul>
         </div>
       </div>
