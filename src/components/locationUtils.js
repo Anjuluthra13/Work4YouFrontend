@@ -32,7 +32,7 @@ export const fetchCityName = async (latitude, longitude) => {
   try {
       const response = await fetch(url);
       if (!response.ok) {
-          throw new Error(HTTP error! Status: ${response.status});
+          throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
       // Ensure data and data.results are defined
