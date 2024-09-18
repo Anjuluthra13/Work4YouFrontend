@@ -1285,7 +1285,7 @@ ul li ul.dropdown li{
 
         
 .filters {
-  background-color: light gray;
+  background-color: gray;
   border-radius: 5px;
   color: #121212;
   padding: 20px;
@@ -1377,4 +1377,3 @@ ul li ul.dropdown li{
 .modal-backdrop {
   display: none !important; /* Completely hides the backdrop */
 }
-
