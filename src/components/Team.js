@@ -4,7 +4,7 @@ import Sudhir from '../image/Sudhir.jpeg';
 import Kamal from '../image/Kamal.jpeg'; 
 import Anju from '../image/Anju.jpeg';
 import Sandhya from '../image/Sandhya.jpeg';
-import { FaLinkedin, FaGithub, FaLink } from 'react-icons/fa'; 
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Card = ({ team }) => {
   return (
@@ -34,15 +34,13 @@ const Card = ({ team }) => {
         <div className="teamsocial-links">
           <h3>Social Links</h3>
           <ul>
-          {team.socialLinks.map((link, index) => (
-  <li key={index}>
-    <a href={link.url} target="_blank" rel="noopener noreferrer">
-      {link.icon === FaLinkedin && <FaLinkedin className="icon" />}
-      {link.icon === FaGithub && <FaGithub className="icon" />}
-      {link.icon === FaLink && <FaLink className="icon" />}
-    </a>
-  </li>
-))}
+            {team.socialLinks.map((link, index) => (
+              <li key={index}>
+                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                  <i className={`fab ${link.icon}`}></i>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -79,9 +77,9 @@ const Team = () => {
       ],
       desc: 'A motivated team player with a solid foundation in management and leadership. Enthusiastic about learning new technologies and improving team workflows.',
       socialLinks: [
-        { url: 'https://www.linkedin.com/in/anju-luthra-538955245/', icon: 'FaLinkedin' },
-        { url: 'https://github.com/Anjuluthra13', icon: 'FaGithub' },
-        { url: 'https://anjuluthra13.github.io/em-1-project', icon: 'FaLink' } 
+        { url: 'https://www.linkedin.com/in/anju-luthra-538955245/', icon: 'fa-linkedin' },
+        { url: 'https://github.com/Anjuluthra13', icon: 'fa-github' },
+        { url: 'https://anjuluthra13.github.io/em-1-project', icon: 'fa-link' } 
       ]
     },
     {
