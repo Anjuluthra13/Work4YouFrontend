@@ -34,7 +34,7 @@ const MyNavbar = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // Include the token if needed
+                    Authorization: `Bearer ${token}` // Include the token if needed
                 },
             });
 
@@ -74,14 +74,14 @@ const MyNavbar = () => {
   };
 
   const searchQueryToRouteMap = {
-    'driver': '/driver',
-    'babysitter': '/babycare',
-    'cooking': '/cooking',
-    'homeservice': '/homemaid',
-    'pest': '/pest',
-    'cleaning': '/clean',
-    'painter': '/paint',
-    'carpenter': '/carpenter'
+    'driver.': '/driver',
+    'babysitter.': '/babycare',
+    'cooking.': '/cooking',
+    'homeservice.': '/homemaid',
+    'pest.': '/pest',
+    'cleaning.': '/clean',
+    'painter.': '/paint',
+    'carpenter.': '/carpenter'
   };
 
   const services = Object.keys(searchQueryToRouteMap);
@@ -172,15 +172,14 @@ const MyNavbar = () => {
     history.push("/login");  // Redirect to login
   };
 
+
   const RenderMenu = () => {
-    
-      return (
-        <NavDropdown title={userName.toUpperCase()} id="basic-nav-dropdown" onClick={handleNavLinkClick}>
-          <NavDropdown.Item as={Link} to="/about" onClick={handleNavLinkClick}>Profile</NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/logout" onClick={handleLogout}>Logout</NavDropdown.Item>
-        </NavDropdown>
-      );
-    
+    return (
+      <NavDropdown title={userName ? userName.toUpperCase() : "User"} id="basic-nav-dropdown">
+        <NavDropdown.Item as={Link} to="/about" onClick={handleNavLinkClick} >Profile</NavDropdown.Item>
+        <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+      </NavDropdown>
+    );
   };
 
   const handleVoiceSearch = () => {
@@ -315,8 +314,8 @@ const MyNavbar = () => {
             </ul>
           )}
         </form>
-        <Dropdown align="end">
-          <Dropdown.Toggle variant="btn btn-primary" style={{ width: "5rem", marginRight: "1rem" }}>
+        <Dropdown>
+          <Dropdown.Toggle variant="btn btn-primary" style={{ width: "5rem", marginRight: "1rem" }} >
             <FaShoppingCart color="white" fontSize="25px" />
             <Badge>{cart.length}</Badge>
           </Dropdown.Toggle>
