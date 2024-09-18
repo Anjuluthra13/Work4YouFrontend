@@ -1,3 +1,5 @@
+// locationUtils.js
+
 export const getUserLocation = () => {
   return new Promise((resolve, reject) => {
       // Check if the browser supports Geolocation
