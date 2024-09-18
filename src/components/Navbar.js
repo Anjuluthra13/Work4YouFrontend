@@ -30,7 +30,7 @@ const MyNavbar = () => {
     const userHome = async () => {
         try {
             const token = localStorage.getItem('token'); // Retrieve the token
-            const res = await fetch('https://work4youbackend-production.up.railway.app/api/auth/getdata', {
+            const res = await fetch('http://localhost:8080/api/auth/getdata', {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -353,7 +353,7 @@ const MyNavbar = () => {
                 ))}
                 <hr />
                 <Link to="/cart">
-                  <Button style={{ width: "95%", margin: "0 10px" }}>
+                  <Button onClick={handleNavLinkClick} style={{ width: "95%", margin: "0 10px" }} >
                     Go To Cart
                   </Button>
                 </Link>
