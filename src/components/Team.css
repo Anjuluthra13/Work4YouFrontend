@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-.teampage {
-    text-align: center;
-    padding: 2rem;
-    background-color: #f4f4f9;
-}
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Inter, sans-serif;
+}
+
+.teampage {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f4f4f9;
 }
 
 .teambody {
@@ -157,4 +157,12 @@
 
 .teamsocial-links ul li a:hover {
     color: #e3c414;
+}
+
+/* Font Awesome specific styles */
+.teamsocial-links ul li a i {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
 }
