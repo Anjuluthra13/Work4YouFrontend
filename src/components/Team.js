@@ -34,15 +34,15 @@ const Card = ({ team }) => {
         <div className="teamsocial-links">
           <h3>Social Links</h3>
           <ul>
-            {team.socialLinks.map((link, index) => (
-              <li key={index}>
-                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                  {link.icon === 'fa-linkedin' && <FaLinkedin className="icon" />}
-                  {link.icon === 'fa-github' && <FaGithub className="icon" />}
-                  {link.icon === 'fa-link' && <FaLink className="icon" />}
-                </a>
-              </li>
-            ))}
+          {team.socialLinks.map((link, index) => (
+  <li key={index}>
+    <a href={link.url} target="_blank" rel="noopener noreferrer">
+      {link.icon === FaLinkedin && <FaLinkedin className="icon" />}
+      {link.icon === FaGithub && <FaGithub className="icon" />}
+      {link.icon === FaLink && <FaLink className="icon" />}
+    </a>
+  </li>
+))}
           </ul>
         </div>
       </div>
