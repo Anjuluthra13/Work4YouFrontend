@@ -37,9 +37,9 @@ const Card = ({ team }) => {
             {team.socialLinks.map((link, index) => (
               <li key={index}>
                 <a href={link.url} target="_blank" rel="noopener noreferrer">
-                  {link.icon === 'fa-linkedin' && <FaLinkedin className="icon" />}
-                  {link.icon === 'fa-github' && <FaGithub className="icon" />}
-                  {link.icon === 'fa-link' && <FaLink className="icon" />}
+                  <FaLinkedin className="icon" />
+                  <FaGithub className="icon" />
+                  <FaLink className="icon" />
                 </a>
               </li>
             ))}
@@ -117,7 +117,6 @@ const Team = () => {
       ]
     }
   ];
-
   return (
     <div className="teampage">
       <h1>Meet Our Team - Work4You</h1>
