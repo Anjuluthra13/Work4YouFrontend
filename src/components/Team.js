@@ -79,9 +79,9 @@ const Team = () => {
       ],
       desc: 'A motivated team player with a solid foundation in management and leadership. Enthusiastic about learning new technologies and improving team workflows.',
       socialLinks: [
-        { url: 'https://www.linkedin.com/in/anju-luthra-538955245/', icon: 'fa-linkedin' },
-        { url: 'https://github.com/Anjuluthra13', icon: 'fa-github' },
-        { url: 'https://anjuluthra13.github.io/em-1-project', icon: 'fa-link' } 
+        { url: 'https://www.linkedin.com/in/anju-luthra-538955245/', icon: 'FaLinkedin' },
+        { url: 'https://github.com/Anjuluthra13', icon: 'FaGithub' },
+        { url: 'https://anjuluthra13.github.io/em-1-project', icon: 'FaLink' } 
       ]
     },
     {
