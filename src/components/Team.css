@@ -26,9 +26,9 @@
     display: flex;
     justify-content: center;
     gap: 24px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
     padding: 20px;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .teamcard {
@@ -159,10 +159,136 @@
     color: #e3c414;
 }
 
-/* Font Awesome specific styles */
 .teamsocial-links ul li a i {
     width: 1em;
     height: 1em;
     line-height: 1em;
     text-align: center;
+}
+
+/* Media Queries for larger screens */
+@media (min-width: 1200px) {
+    .teamcard {
+        width: 350px;
+        height: 475px;
+    }
+
+    .teamdetails h1 {
+        font-size: 1.6em;
+    }
+
+    .teamdetails h2 {
+        font-size: 1.1em;
+    }
+
+    .teamrating i {
+        font-size: 1em;
+    }
+
+    .teamtags .teamtag {
+        font-size: 0.9em;
+    }
+
+    .teamsocial-links ul li a {
+        font-size: 1.4em;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .teamcard {
+        width: 325px;
+        height: 450px;
+    }
+
+    .teamdetails h1 {
+        font-size: 1.5em;
+    }
+
+    .teamdetails h2 {
+        font-size: 1em;
+    }
+
+    .teamrating i {
+        font-size: 0.95em;
+    }
+
+    .teamtags .teamtag {
+        font-size: 0.85em;
+    }
+
+    .teamsocial-links ul li a {
+        font-size: 1.25em;
+    }
+}
+
+/* Media Queries for smaller screens */
+@media (max-width: 768px) {
+    .teamcard {
+        width: 280px;
+        height: 400px;
+    }
+
+    .teamdetails h1 {
+        font-size: 1.25em;
+    }
+
+    .teamdetails h2 {
+        font-size: 0.9em;
+    }
+
+    .teamrating i {
+        font-size: 0.9em;
+    }
+
+    .teamtags .teamtag {
+        font-size: 0.75em;
+    }
+
+    .teamsocial-links ul li a {
+        font-size: 1.1em;
+    }
+}
+
+/* Additional Media Query for iPhone SE and smaller devices */
+@media (max-width: 320px) {
+    .teamwrapper {
+        flex-direction: column;  /* Stack cards vertically */
+        align-items: center;     /* Center align cards */
+        padding: 10px;
+    }
+
+    .teamcard {
+        width: 90%;  /* Make the card width responsive */
+        height: auto;  /* Let height adjust automatically */
+        margin-bottom: 20px;
+    }
+
+    .teamdetails {
+        padding: 1em;
+    }
+
+    .teamdetails h1 {
+        font-size: 1.1em;
+    }
+
+    .teamdetails h2 {
+        font-size: 0.8em;
+    }
+
+    .teamrating i {
+        font-size: 0.8em;
+    }
+
+    .teamtags .teamtag {
+        font-size: 0.7em;
+        padding: 0.25rem 0.55rem;
+    }
+
+    .teamsocial-links ul {
+        gap: 0.5em;
+    }
+
+    .teamsocial-links ul li a {
+        font-size: 1em;
+    }
 }
