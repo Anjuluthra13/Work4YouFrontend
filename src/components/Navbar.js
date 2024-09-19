@@ -211,12 +211,12 @@ const MyNavbar = () => {
           <Nav.Link as={Link} to="/OurTeam" onClick={handleNavLinkClick}>OUR TEAM</Nav.Link>
           <Nav.Link as={Link} to="/locals" onClick={handleNavLinkClick}>APPLY FOR JOB</Nav.Link>
           <NavDropdown title="SERVICES" id="basic-nav-dropdown" show={openDropdown === 'services'} onClick={() => handleDropdownClick('services')}>
-            <NavDropdown.Item onClick={() => history.push('/homemaid')}>Home Service</NavDropdown.Item>
-            <NavDropdown.Item onClick={() => history.push('/book')}>Service for Month</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => history.push('/homemaid')} onClick={handleNavLinkClick} >Home Service</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => history.push('/book')} onClick={handleNavLinkClick}>Service for Month</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown title="SUPPORT" id="basic-nav-dropdown" show={openDropdown === 'support'} onClick={() => handleDropdownClick('support')}>
-            <NavDropdown.Item onClick={() => history.push('/contactus')}>CONTACT US</NavDropdown.Item>
-            <NavDropdown.Item onClick={() => history.push('/touch')}>FEEDBACK</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => history.push('/contactus')}onClick={handleNavLinkClick}>CONTACT US</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => history.push('/touch')}onClick={handleNavLinkClick}>FEEDBACK</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         <div className="navbar-location" style={{ display: 'flex', alignItems: 'center', marginRight: '2rem', color: theme === 'dark' ? 'white' : 'black' }}>
