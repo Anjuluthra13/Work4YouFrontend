@@ -34,6 +34,7 @@ const Footer = ()=> {
       <li><Link  to="/babysitter" style={{color:"white",textDecoration:"none"}}>Baby Sitter</Link></li><br/>
       <li><Link  to="/pestcontrol" style={{color:"white",textDecoration:"none"}}>Pest Control</Link></li><br/>
       <li><Link to="/cleaning" style={{color:"white",textDecoration:"none"}}>Cleaning</Link></li> 
+        <li><Link to="https://vendor-frontend-five.vercel.app/vendorlogin" style={{color:"white",textDecoration:"none"}}>Vendor/Link></li>     
       </ul>
      </div>
 
